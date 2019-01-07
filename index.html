@@ -334,8 +334,8 @@ df.excel =<span class="st"> </span><span class="kw">read_excel</span>(<span clas
 <h3>Data Wrangling</h3>
 <p>The package &quot;dplyr,&quot; included in the <a href="https://www.tidyverse.org/">tidyverse</a>, includes several verbs that ease data munging:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>()    <span class="co"># Select variables/columns.</span>
-df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>()    <span class="co"># Select rows.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>()    <span class="co"># Subset columns.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>()    <span class="co"># Subset rows.</span>
 df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>()   <span class="co"># Sort/order by columns.</span>
 df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>()    <span class="co"># Create new variables/columns.</span>
 df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>()  <span class="co"># Groups data by variable.</span>
