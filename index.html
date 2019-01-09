@@ -212,7 +212,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -223,7 +223,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">R Cheat Sheet</h1>
-<h4 class="date"><em>January 6, 2019</em></h4>
+<h4 class="date"><em>January 8, 2019</em></h4>
 
 </div>
 
@@ -361,28 +361,28 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summa
 ## $ advance    &lt;dbl&gt; 45, 47, 48, 35, 47, 34, 35, 41, 31, 41, 34, 41, 25,...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols.model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)
 <span class="kw">summary</span>(ols.model)</code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
 ## lm(formula = rating ~ ., data = attitude)
-## 
+##
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -10.9418  -4.3555   0.3158   5.5425  11.5990 
-## 
+##      Min       1Q   Median       3Q      Max
+## -10.9418  -4.3555   0.3158   5.5425  11.5990
+##
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 10.78708   11.58926   0.931 0.361634    
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 10.78708   11.58926   0.931 0.361634
 ## complaints   0.61319    0.16098   3.809 0.000903 ***
-## privileges  -0.07305    0.13572  -0.538 0.595594    
-## learning     0.32033    0.16852   1.901 0.069925 .  
-## raises       0.08173    0.22148   0.369 0.715480    
-## critical     0.03838    0.14700   0.261 0.796334    
-## advance     -0.21706    0.17821  -1.218 0.235577    
+## privileges  -0.07305    0.13572  -0.538 0.595594
+## learning     0.32033    0.16852   1.901 0.069925 .
+## raises       0.08173    0.22148   0.369 0.715480
+## critical     0.03838    0.14700   0.261 0.796334
+## advance     -0.21706    0.17821  -1.218 0.235577
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## Residual standard error: 7.068 on 23 degrees of freedom
-## Multiple R-squared:  0.7326, Adjusted R-squared:  0.6628 
+## Multiple R-squared:  0.7326, Adjusted R-squared:  0.6628
 ## F-statistic:  10.5 on 6 and 23 DF,  p-value: 1.24e-05</code></pre>
 <p><br></p>
 </div>
@@ -404,31 +404,31 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 ## $ x4 &lt;int&gt; 4, 3, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 4, 3, 1, 2, 2, 1, 3,...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logit.model =<span class="st"> </span><span class="kw">glm</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)
 <span class="kw">summary</span>(logit.model)</code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;), 
+## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;),
 ##     data = bivariate)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.4540  -0.7006   0.1380   0.7975   2.2304  
-## 
+##
+## Deviance Residuals:
+##     Min       1Q   Median       3Q      Max
+## -2.4540  -0.7006   0.1380   0.7975   2.2304
+##
 ## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept) -3.25781    1.06372  -3.063 0.002194 ** 
-## x1          -0.51308    0.45749  -1.122 0.262073    
-## x2          -0.09466    0.33360  -0.284 0.776613    
-## x3           1.07828    1.05224   1.025 0.305481    
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -3.25781    1.06372  -3.063 0.002194 **
+## x1          -0.51308    0.45749  -1.122 0.262073
+## x2          -0.09466    0.33360  -0.284 0.776613
+## x3           1.07828    1.05224   1.025 0.305481
 ## x4           2.68049    0.69091   3.880 0.000105 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## (Dispersion parameter for binomial family taken to be 1)
-## 
+##
 ##     Null deviance: 107.669  on 77  degrees of freedom
 ## Residual deviance:  74.269  on 73  degrees of freedom
 ## AIC: 84.269
-## 
+##
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p><br></p>
 <p>The <code>mfx</code> package is useful if you want odds ratios or marginal effects:</p>
@@ -439,23 +439,23 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 ## x2  0.9096864  0.3034753 -0.2837354 0.7766131689
 ## x3  2.9396169  3.0931711  1.0247503 0.3054810361
 ## x4 14.5922705 10.0820036  3.8796320 0.0001046146
-## 
+##
 ## $fit
-## 
-## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data, 
+##
+## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data,
 ##     start = start, control = control, x = T)
-## 
+##
 ## Coefficients:
-## (Intercept)           x1           x2           x3           x4  
-##    -3.25781     -0.51308     -0.09466      1.07828      2.68049  
-## 
+## (Intercept)           x1           x2           x3           x4
+##    -3.25781     -0.51308     -0.09466      1.07828      2.68049
+##
 ## Degrees of Freedom: 77 Total (i.e. Null);  73 Residual
-## Null Deviance:       107.7 
+## Null Deviance:       107.7
 ## Residual Deviance: 74.27     AIC: 84.27
-## 
+##
 ## $call
 ## mfx::logitor(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
-## 
+##
 ## attr(,&quot;class&quot;)
 ## [1] &quot;logitor&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mfx<span class="op">::</span><span class="kw">logitmfx</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">data =</span> bivariate) <span class="co"># Marginal Effects</span></code></pre></div>
@@ -465,26 +465,26 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 ## x2 -0.02260923 0.07967311 -0.2837749 7.765829e-01
 ## x3  0.22275040 0.17606692  1.2651463 2.058189e-01
 ## x4  0.64025819 0.15620900  4.0987280 4.154268e-05
-## 
+##
 ## $fit
-## 
-## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data, 
+##
+## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data,
 ##     start = start, control = control, x = T)
-## 
+##
 ## Coefficients:
-## (Intercept)           x1           x2           x3           x4  
-##    -3.25781     -0.51308     -0.09466      1.07828      2.68049  
-## 
+## (Intercept)           x1           x2           x3           x4
+##    -3.25781     -0.51308     -0.09466      1.07828      2.68049
+##
 ## Degrees of Freedom: 77 Total (i.e. Null);  73 Residual
-## Null Deviance:       107.7 
+## Null Deviance:       107.7
 ## Residual Deviance: 74.27     AIC: 84.27
-## 
+##
 ## $dcvar
 ## [1] &quot;x3&quot;
-## 
+##
 ## $call
 ## mfx::logitmfx(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
-## 
+##
 ## attr(,&quot;class&quot;)
 ## [1] &quot;logitmfx&quot;</code></pre>
 <p><br></p>
@@ -510,28 +510,28 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 cox.model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)
 <span class="kw">summary</span>(cox.model)</code></pre></div>
 <pre><code>## Call:
-## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal + 
+## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal +
 ##     wt.loss, data = lung)
-## 
-##   n= 170, number of events= 123 
+##
+##   n= 170, number of events= 123
 ##    (58 observations deleted due to missingness)
-## 
-##                coef  exp(coef)   se(coef)      z Pr(&gt;|z|)    
-## age       8.693e-03  1.009e+00  1.124e-02  0.773 0.439303    
-## sex      -5.400e-01  5.827e-01  1.988e-01 -2.716 0.006602 ** 
+##
+##                coef  exp(coef)   se(coef)      z Pr(&gt;|z|)
+## age       8.693e-03  1.009e+00  1.124e-02  0.773 0.439303
+## sex      -5.400e-01  5.827e-01  1.988e-01 -2.716 0.006602 **
 ## ph.ecog   5.152e-01  1.674e+00  1.483e-01  3.474 0.000513 ***
-## meal.cal -4.499e-05  1.000e+00  2.512e-04 -0.179 0.857865    
-## wt.loss  -1.117e-02  9.889e-01  7.548e-03 -1.480 0.138841    
+## meal.cal -4.499e-05  1.000e+00  2.512e-04 -0.179 0.857865
+## wt.loss  -1.117e-02  9.889e-01  7.548e-03 -1.480 0.138841
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ##          exp(coef) exp(-coef) lower .95 upper .95
 ## age         1.0087     0.9913    0.9868    1.0312
 ## sex         0.5827     1.7160    0.3947    0.8604
 ## ph.ecog     1.6739     0.5974    1.2517    2.2384
 ## meal.cal    1.0000     1.0000    0.9995    1.0004
 ## wt.loss     0.9889     1.0112    0.9744    1.0036
-## 
+##
 ## Concordance= 0.64  (se = 0.03 )
 ## Rsquare= 0.123   (max possible= 0.998 )
 ## Likelihood ratio test= 22.34  on 5 df,   p=5e-04
@@ -546,7 +546,7 @@ cox.model =<span class="st"> </span><span class="kw">coxph</span>(<span class="k
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MASS<span class="op">::</span><span class="kw">polr</span>()</code></pre></div>
 <ul>
-<li>Multinomial Regression</li>
+<li>Multinomial Logistic Regression</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nnet<span class="op">::</span><span class="kw">multinom</span>()</code></pre></div>
 <ul>
