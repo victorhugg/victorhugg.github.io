@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="date" content="2019-03-12" />
+
+<title>R Cheat Sheet</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="favicon.png" rel="icon" type="image/x-icon">
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Victor G. Hugg</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="VictorHuggCV.pdf">Academic CV (PDF)</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Cheat Sheet</h1>
+<h4 class="date"><em>March 12, 2019</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#install-r-and-rstudio">Install R and RStudio</a></li>
+<li><a href="#set-working-directory">Set Working Directory</a></li>
+<li><a href="#get-working-directory">Get Working Directory</a></li>
+<li><a href="#install-package">Install Package</a></li>
+<li><a href="#load-package">Load Package</a></li>
+<li><a href="#use-command-from-non-loaded-package">Use Command from Non-Loaded Package</a></li>
+<li><a href="#read-in-data">Read in Data</a></li>
+<li><a href="#data-wrangling">Data Wrangling</a></li>
+<li><a href="#linear-regression">Linear Regression</a></li>
+<li><a href="#logistic-regression">Logistic Regression</a></li>
+<li><a href="#poissonnegative-binomial-regressions">Poisson/Negative Binomial Regressions</a></li>
+<li><a href="#fixed-effects-panel-regressions">Fixed-Effects Panel Regressions</a></li>
+<li><a href="#cox-proportional-hazards-model">Cox Proportional Hazards Model</a></li>
+<li><a href="#robust-standard-errors">Robust Standard Errors</a></li>
+<li><a href="#ordinal-logit-regression">Ordinal Logit Regression</a></li>
+<li><a href="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
+<li><a href="#instrumental-variable-regression-by-two-stage-least-squares">Instrumental Variable Regression by Two-Stage Least Squares</a></li>
+<li><a href="#multilevel-mixed-effects-models">Multilevel Mixed-Effects Models</a></li>
+<li><a href="#social-network-analysis-ergm-and-siena">Social Network Analysis, ERGM, and SIENA</a></li>
+<li><a href="#survey-analysis">Survey Analysis</a></li>
+<li><a href="#data-visualization">Data Visualization</a></li>
+<li><a href="#regression-table-output">Regression Table Output</a></li>
+</ul>
+</div>
+
+<style type="text/css">
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+</style>
+<p><br></p>
+<p>Victor here. I'm a PhD candidate at UIC. Hope this quick R guide proves useful to you.</p>
+<p><br></p>
+<div id="install-r-and-rstudio" class="section level3">
+<h3>Install R and RStudio</h3>
+<ol style="list-style-type: decimal">
+<li>Download and install R: <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>
+<ul>
+<li>For Windows, click on &quot;base&quot; to arrive at the download link.</li>
+<li>For macOS, you want the file that ends in &quot;.pkg&quot;</li>
+</ul></li>
+<li>Download and install RStudio: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a>
+<ul>
+<li>Be sure to familiarize yourself with RStudio's options (&quot;Tools&quot; Menu &gt; &quot;Global Options&quot;).</li>
+<li>Select a theme that is easy on the eyes. Here's what my RStudio looks like:</li>
+</ul></li>
+</ol>
+<p><img src="rstudio.png" width="878" /></p>
+<p><br></p>
+</div>
+<div id="set-working-directory" class="section level3">
+<h3>Set Working Directory</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;C:/Research/R&quot;</span>)</code></pre></div>
+<ul>
+<li>RStudio Alternative: &quot;Files&quot; Pane &gt; &quot;More&quot; &gt; &quot;Set As Working Directory&quot;</li>
+</ul>
+<p><br></p>
+</div>
+<div id="get-working-directory" class="section level3">
+<h3>Get Working Directory</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getwd</span>()</code></pre></div>
+<ul>
+<li>RStudio Alternative: &quot;Files&quot; Pane &gt; &quot;More&quot; &gt; &quot;Go To Working Directory&quot;</li>
+</ul>
+<p><br></p>
+</div>
+<div id="install-package" class="section level3">
+<h3>Install Package</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
+<ul>
+<li>RStudio Alternative: &quot;Packages&quot; Pane &gt; &quot;Install&quot;</li>
+<li>Explore the <a href="https://cran.r-project.org/web/views/">CRAN Task Views</a> to discover new packages.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="load-package" class="section level3">
+<h3>Load Package</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(parallel)</code></pre></div>
+<ul>
+<li>RStudio Alternative: &quot;Packages&quot; Pane &gt; Check Off Desired Packages
+<ul>
+<li>Unless you are quickly testing the functionality of a new package, you should avoid loading libraries this way.</li>
+<li>Loading packages via your script is important for replication purposes.</li>
+</ul></li>
+<li>In practice, I suggest starting every script with <code>library(tidyverse)</code> since doing loads <code>ggplot2</code>, <code>tibble</code>, <code>tidyr</code>, <code>readr</code>, <code>purrr</code>, <code>dplyr</code>, <code>stringr</code>, and <code>forcats</code>.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="use-command-from-non-loaded-package" class="section level3">
+<h3>Use Command from Non-Loaded Package</h3>
+<p>There's no need to load an entire package if you only need one function from it. Instead, use a double colon, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df.stata =<span class="st"> </span>haven<span class="op">::</span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</code></pre></div>
+<p><br></p>
+</div>
+<div id="read-in-data" class="section level3">
+<h3>Read in Data</h3>
+<p>R can read virtually any tabular data file (and is rapidly improving its <a href="https://cran.r-project.org/web/views/Databases.html">database capabilities</a>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+df.csv   =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Comma Separated Values.csv&quot;</span>)
+
+<span class="kw">library</span>(haven)
+df.stata =<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)
+df.sas   =<span class="st"> </span><span class="kw">read_sas</span>(<span class="st">&quot;SAS File.sas7bdat&quot;</span>)
+df.spss  =<span class="st"> </span><span class="kw">read_spss</span>(<span class="st">&quot;SPSS File.sav&quot;</span>)
+
+<span class="kw">library</span>(readxl)
+df.excel =<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;Excel Spreadsheet.xlsx&quot;</span>)</code></pre></div>
+<ul>
+<li>RStudio Alternative: &quot;File&quot; Menu &gt; &quot;Import Dataset&quot;</li>
+</ul>
+<p><br></p>
+</div>
+<div id="data-wrangling" class="section level3">
+<h3>Data Wrangling</h3>
+<p>The package &quot;dplyr,&quot; included in the <a href="https://www.tidyverse.org/">tidyverse</a>, includes several verbs that ease data munging:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>()    <span class="co"># Subset columns.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>()    <span class="co"># Subset rows.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>()   <span class="co"># Sort/order by columns.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>()    <span class="co"># Create new variables/columns.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>()  <span class="co"># Groups data by variable.</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>() <span class="co"># Reduce multiple values to a single value.</span></code></pre></div>
+<p>The arduous process of data tidying falls outside the scope of a cheat sheet, but rest assured that the above verbs combined with the powerful pipe operator will make your life significantly easier.</p>
+<p><br></p>
+</div>
+<div id="linear-regression" class="section level3">
+<h3>Linear Regression</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols.model =<span class="st"> </span><span class="kw">lm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">data =</span> df.goes.here)
+<span class="kw">summary</span>(ols.model)</code></pre></div>
+<p><br></p>
+<p>Use a period if you want every variable (except the dependent variable specified) to be used as a covariate:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tibble<span class="op">::</span><span class="kw">glimpse</span>(attitude) <span class="co"># Glimpse at the data; better than head() or str(), in my opinion.</span></code></pre></div>
+<pre><code>## Observations: 30
+## Variables: 7
+## $ rating     &lt;dbl&gt; 43, 63, 71, 61, 81, 43, 58, 71, 72, 67, 64, 67, 69,...
+## $ complaints &lt;dbl&gt; 51, 64, 70, 63, 78, 55, 67, 75, 82, 61, 53, 60, 62,...
+## $ privileges &lt;dbl&gt; 30, 51, 68, 45, 56, 49, 42, 50, 72, 45, 53, 47, 57,...
+## $ learning   &lt;dbl&gt; 39, 54, 69, 47, 66, 44, 56, 55, 67, 47, 58, 39, 42,...
+## $ raises     &lt;dbl&gt; 61, 63, 76, 54, 71, 54, 66, 70, 71, 62, 58, 59, 55,...
+## $ critical   &lt;dbl&gt; 92, 73, 86, 84, 83, 49, 68, 66, 83, 80, 67, 74, 63,...
+## $ advance    &lt;dbl&gt; 45, 47, 48, 35, 47, 34, 35, 41, 31, 41, 34, 41, 25,...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols.model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)
+<span class="kw">summary</span>(ols.model)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = rating ~ ., data = attitude)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.9418  -4.3555   0.3158   5.5425  11.5990 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 10.78708   11.58926   0.931 0.361634    
+## complaints   0.61319    0.16098   3.809 0.000903 ***
+## privileges  -0.07305    0.13572  -0.538 0.595594    
+## learning     0.32033    0.16852   1.901 0.069925 .  
+## raises       0.08173    0.22148   0.369 0.715480    
+## critical     0.03838    0.14700   0.261 0.796334    
+## advance     -0.21706    0.17821  -1.218 0.235577    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 7.068 on 23 degrees of freedom
+## Multiple R-squared:  0.7326, Adjusted R-squared:  0.6628 
+## F-statistic:  10.5 on 6 and 23 DF,  p-value: 1.24e-05</code></pre>
+<p><br></p>
+</div>
+<div id="logistic-regression" class="section level3">
+<h3>Logistic Regression</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logit.model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df.goes.here)
+<span class="kw">summary</span>(logit.model)</code></pre></div>
+<p><br></p>
+<p>Using sample data from the <code>Zelig</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(bivariate, <span class="dt">package =</span> <span class="st">&quot;Zelig&quot;</span>)
+tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code></pre></div>
+<pre><code>## Observations: 78
+## Variables: 6
+## $ x3 &lt;int&gt; 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ x2 &lt;int&gt; 4, 2, 1, 1, 1, 1, 2, 1, 2, 2, 1, 1, 3, 3, 3, 1, 4, 3, 1, 3,...
+## $ x1 &lt;int&gt; 3, 3, 3, 3, 3, 3, 2, 3, 1, 3, 2, 2, 1, 3, 2, 2, 2, 3, 1, 3,...
+## $ y2 &lt;int&gt; 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1,...
+## $ y1 &lt;int&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0,...
+## $ x4 &lt;int&gt; 4, 3, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 4, 3, 1, 2, 2, 1, 3,...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logit.model =<span class="st"> </span><span class="kw">glm</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)
+<span class="kw">summary</span>(logit.model)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;), 
+##     data = bivariate)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.4540  -0.7006   0.1380   0.7975   2.2304  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.25781    1.06372  -3.063 0.002194 ** 
+## x1          -0.51308    0.45749  -1.122 0.262073    
+## x2          -0.09466    0.33360  -0.284 0.776613    
+## x3           1.07828    1.05224   1.025 0.305481    
+## x4           2.68049    0.69091   3.880 0.000105 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 107.669  on 77  degrees of freedom
+## Residual deviance:  74.269  on 73  degrees of freedom
+## AIC: 84.269
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p><br></p>
+<p>The <code>mfx</code> package is useful if you want odds ratios or marginal effects:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mfx<span class="op">::</span><span class="kw">logitor</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">data =</span> bivariate) <span class="co"># Odds Ratios</span></code></pre></div>
+<pre><code>## $oddsratio
+##     OddsRatio  Std. Err.          z        P&gt;|z|
+## x1  0.5986491  0.2738773 -1.1215047 0.2620730847
+## x2  0.9096864  0.3034753 -0.2837354 0.7766131689
+## x3  2.9396169  3.0931711  1.0247503 0.3054810361
+## x4 14.5922705 10.0820036  3.8796320 0.0001046146
+## 
+## $fit
+## 
+## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data, 
+##     start = start, control = control, x = T)
+## 
+## Coefficients:
+## (Intercept)           x1           x2           x3           x4  
+##    -3.25781     -0.51308     -0.09466      1.07828      2.68049  
+## 
+## Degrees of Freedom: 77 Total (i.e. Null);  73 Residual
+## Null Deviance:       107.7 
+## Residual Deviance: 74.27     AIC: 84.27
+## 
+## $call
+## mfx::logitor(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;logitor&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mfx<span class="op">::</span><span class="kw">logitmfx</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">data =</span> bivariate) <span class="co"># Marginal Effects</span></code></pre></div>
+<pre><code>## $mfxest
+##          dF/dx  Std. Err.          z        P&gt;|z|
+## x1 -0.12255342 0.10772250 -1.1376771 2.552553e-01
+## x2 -0.02260923 0.07967311 -0.2837749 7.765829e-01
+## x3  0.22275040 0.17606692  1.2651463 2.058189e-01
+## x4  0.64025819 0.15620900  4.0987280 4.154268e-05
+## 
+## $fit
+## 
+## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data, 
+##     start = start, control = control, x = T)
+## 
+## Coefficients:
+## (Intercept)           x1           x2           x3           x4  
+##    -3.25781     -0.51308     -0.09466      1.07828      2.68049  
+## 
+## Degrees of Freedom: 77 Total (i.e. Null);  73 Residual
+## Null Deviance:       107.7 
+## Residual Deviance: 74.27     AIC: 84.27
+## 
+## $dcvar
+## [1] &quot;x3&quot;
+## 
+## $call
+## mfx::logitmfx(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;logitmfx&quot;</code></pre>
+<p><br></p>
+</div>
+<div id="poissonnegative-binomial-regressions" class="section level3">
+<h3>Poisson/Negative Binomial Regressions</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">poisson.model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df.goes.here)
+<span class="kw">summary</span>(poisson.model)</code></pre></div>
+<p><br></p>
+<p>Using sample data from the <code>AER</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(RecreationDemand, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)
+poisson.model =<span class="st"> </span><span class="kw">glm</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> poisson, <span class="dt">data =</span> RecreationDemand)
+<span class="kw">summary</span>(poisson.model)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = trips ~ ., family = poisson, data = RecreationDemand)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -11.8465   -1.1411   -0.8896   -0.4780   18.6071  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.264993   0.093722   2.827  0.00469 ** 
+## quality      0.471726   0.017091  27.602  &lt; 2e-16 ***
+## skiyes       0.418214   0.057190   7.313 2.62e-13 ***
+## income      -0.111323   0.019588  -5.683 1.32e-08 ***
+## userfeeyes   0.898165   0.078985  11.371  &lt; 2e-16 ***
+## costC       -0.003430   0.003118  -1.100  0.27131    
+## costS       -0.042536   0.001670 -25.467  &lt; 2e-16 ***
+## costH        0.036134   0.002710  13.335  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 4849.7  on 658  degrees of freedom
+## Residual deviance: 2305.8  on 651  degrees of freedom
+## AIC: 3074.9
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p>When estimating Poisson models, always check for overdispersion:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AER<span class="op">::</span><span class="kw">dispersiontest</span>(poisson.model)</code></pre></div>
+<pre><code>## 
+##  Overdispersion test
+## 
+## data:  poisson.model
+## z = 2.4116, p-value = 0.007941
+## alternative hypothesis: true dispersion is greater than 1
+## sample estimates:
+## dispersion 
+##     6.5658</code></pre>
+<p>Given the overdispersion present, a negative binomial regression would be more appropriate:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">neg.binomial.model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> RecreationDemand)
+<span class="kw">summary</span>(neg.binomial.model)</code></pre></div>
+<pre><code>## 
+## Call:
+## MASS::glm.nb(formula = trips ~ ., data = RecreationDemand, init.theta = 0.7292568331, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.9727  -0.6256  -0.4619  -0.2897   5.0494  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.121936   0.214303  -5.235 1.65e-07 ***
+## quality      0.721999   0.040117  17.998  &lt; 2e-16 ***
+## skiyes       0.612139   0.150303   4.073 4.65e-05 ***
+## income      -0.026059   0.042453  -0.614    0.539    
+## userfeeyes   0.669168   0.353021   1.896    0.058 .  
+## costC        0.048009   0.009185   5.227 1.72e-07 ***
+## costS       -0.092691   0.006653 -13.931  &lt; 2e-16 ***
+## costH        0.038836   0.007751   5.011 5.42e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(0.7293) family taken to be 1)
+## 
+##     Null deviance: 1244.61  on 658  degrees of freedom
+## Residual deviance:  425.42  on 651  degrees of freedom
+## AIC: 1669.1
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  0.7293 
+##           Std. Err.:  0.0747 
+## 
+##  2 x log-likelihood:  -1651.1150</code></pre>
+<p><br></p>
+</div>
+<div id="fixed-effects-panel-regressions" class="section level3">
+<h3>Fixed-Effects Panel Regressions</h3>
+<p>An example of a panel regression with year and individual fixed effects:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Grunfeld, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)
+plm.fixed.model =<span class="st"> </span>plm<span class="op">::</span><span class="kw">plm</span>(inv <span class="op">~</span><span class="st"> </span>value <span class="op">+</span><span class="st"> </span>capital, <span class="dt">data =</span> Grunfeld,
+                           <span class="dt">effect =</span> <span class="st">&quot;twoway&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)
+<span class="kw">summary</span>(plm.fixed.model)</code></pre></div>
+<pre><code>## Twoways effects Within Model
+## 
+## Call:
+## plm::plm(formula = inv ~ value + capital, data = Grunfeld, effect = &quot;twoway&quot;, 
+##     model = &quot;within&quot;)
+## 
+## Balanced Panel: n = 10, T = 20, N = 200
+## 
+## Residuals:
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -162.6094  -19.4710   -1.2669   19.1277  211.8420 
+## 
+## Coefficients:
+##         Estimate Std. Error t-value  Pr(&gt;|t|)    
+## value   0.117716   0.013751  8.5604 6.653e-15 ***
+## capital 0.357916   0.022719 15.7540 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Total Sum of Squares:    1615600
+## Residual Sum of Squares: 452150
+## R-Squared:      0.72015
+## Adj. R-Squared: 0.67047
+## F-statistic: 217.442 on 2 and 169 DF, p-value: &lt; 2.22e-16</code></pre>
+<p><br></p>
+</div>
+<div id="cox-proportional-hazards-model" class="section level3">
+<h3>Cox Proportional Hazards Model</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(survival)
+<span class="kw">data</span>(lung)
+cox.model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)
+<span class="kw">summary</span>(cox.model)</code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal + 
+##     wt.loss, data = lung)
+## 
+##   n= 170, number of events= 123 
+##    (58 observations deleted due to missingness)
+## 
+##                coef  exp(coef)   se(coef)      z Pr(&gt;|z|)    
+## age       8.693e-03  1.009e+00  1.124e-02  0.773 0.439303    
+## sex      -5.400e-01  5.827e-01  1.988e-01 -2.716 0.006602 ** 
+## ph.ecog   5.152e-01  1.674e+00  1.483e-01  3.474 0.000513 ***
+## meal.cal -4.499e-05  1.000e+00  2.512e-04 -0.179 0.857865    
+## wt.loss  -1.117e-02  9.889e-01  7.548e-03 -1.480 0.138841    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##          exp(coef) exp(-coef) lower .95 upper .95
+## age         1.0087     0.9913    0.9868    1.0312
+## sex         0.5827     1.7160    0.3947    0.8604
+## ph.ecog     1.6739     0.5974    1.2517    2.2384
+## meal.cal    1.0000     1.0000    0.9995    1.0004
+## wt.loss     0.9889     1.0112    0.9744    1.0036
+## 
+## Concordance= 0.64  (se = 0.03 )
+## Rsquare= 0.123   (max possible= 0.998 )
+## Likelihood ratio test= 22.34  on 5 df,   p=5e-04
+## Wald test            = 21.31  on 5 df,   p=7e-04
+## Score (logrank) test = 21.86  on 5 df,   p=6e-04</code></pre>
+<p><br></p>
+<p>Everything below this point is a work in progress...</p>
+<p><br></p>
+</div>
+<div id="robust-standard-errors" class="section level3">
+<h3>Robust Standard Errors</h3>
+<ul>
+<li>Syntax can differ greatly based on what you're aiming to accomplish.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="ordinal-logit-regression" class="section level3">
+<h3>Ordinal Logit Regression</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MASS<span class="op">::</span><span class="kw">polr</span>()</code></pre></div>
+<p><br></p>
+</div>
+<div id="multinomial-logistic-regression" class="section level3">
+<h3>Multinomial Logistic Regression</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nnet<span class="op">::</span><span class="kw">multinom</span>()</code></pre></div>
+<p><br></p>
+</div>
+<div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level3">
+<h3>Instrumental Variable Regression by Two-Stage Least Squares</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AER<span class="op">::</span><span class="kw">ivreg</span>()</code></pre></div>
+<p><br></p>
+</div>
+<div id="multilevel-mixed-effects-models" class="section level3">
+<h3>Multilevel Mixed-Effects Models</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lme4<span class="op">::</span><span class="kw">lmer</span>()</code></pre></div>
+<p><br></p>
+</div>
+<div id="social-network-analysis-ergm-and-siena" class="section level3">
+<h3>Social Network Analysis, ERGM, and SIENA</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(statnet)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ergm<span class="op">::</span><span class="kw">ergm</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">RSiena<span class="op">::</span><span class="kw">siena07</span>()</code></pre></div>
+<p><br></p>
+</div>
+<div id="survey-analysis" class="section level3">
+<h3>Survey Analysis</h3>
+<ul>
+<li>Industry seems to prefer SPSS, SAS, and Stata for this; might not bother.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(survey)</code></pre></div>
+<p><br></p>
+</div>
+<div id="data-visualization" class="section level3">
+<h3>Data Visualization</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(ggcorrplot)</code></pre></div>
+<p><br></p>
+</div>
+<div id="regression-table-output" class="section level3">
+<h3>Regression Table Output</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(texreg)</code></pre></div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
