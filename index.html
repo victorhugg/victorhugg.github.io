@@ -10,6 +10,7 @@
 
 
 
+<meta name="date" content="2019-03-12" />
 
 <title>R Cheat Sheet</title>
 
@@ -212,7 +213,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -223,7 +224,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">R Cheat Sheet</h1>
-<h4 class="date"><em>January 8, 2019</em></h4>
+<h4 class="date"><em>March 12, 2019</em></h4>
 
 </div>
 
@@ -239,7 +240,18 @@ $(document).ready(function () {
 <li><a href="#data-wrangling">Data Wrangling</a></li>
 <li><a href="#linear-regression">Linear Regression</a></li>
 <li><a href="#logistic-regression">Logistic Regression</a></li>
-<li><a href="#to-be-added">To Be Added</a></li>
+<li><a href="#poissonnegative-binomial-regressions">Poisson/Negative Binomial Regressions</a></li>
+<li><a href="#fixed-effects-panel-regressions">Fixed-Effects Panel Regressions</a></li>
+<li><a href="#cox-proportional-hazards-model">Cox Proportional Hazards Model</a></li>
+<li><a href="#robust-standard-errors">Robust Standard Errors</a></li>
+<li><a href="#ordinal-logit-regression">Ordinal Logit Regression</a></li>
+<li><a href="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
+<li><a href="#instrumental-variable-regression-by-two-stage-least-squares">Instrumental Variable Regression by Two-Stage Least Squares</a></li>
+<li><a href="#multilevel-mixed-effects-models">Multilevel Mixed-Effects Models</a></li>
+<li><a href="#social-network-analysis-ergm-and-siena">Social Network Analysis, ERGM, and SIENA</a></li>
+<li><a href="#survey-analysis">Survey Analysis</a></li>
+<li><a href="#data-visualization">Data Visualization</a></li>
+<li><a href="#regression-table-output">Regression Table Output</a></li>
 </ul>
 </div>
 
@@ -274,7 +286,7 @@ img {
 </div>
 <div id="set-working-directory" class="section level3">
 <h3>Set Working Directory</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;C:/Example/R&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;C:/Research/R&quot;</span>)</code></pre></div>
 <ul>
 <li>RStudio Alternative: &quot;Files&quot; Pane &gt; &quot;More&quot; &gt; &quot;Set As Working Directory&quot;</li>
 </ul>
@@ -301,7 +313,11 @@ img {
 <h3>Load Package</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(parallel)</code></pre></div>
 <ul>
-<li>RStudio Alternative: &quot;Packages&quot; Pane &gt; Check Off Desired Packages</li>
+<li>RStudio Alternative: &quot;Packages&quot; Pane &gt; Check Off Desired Packages
+<ul>
+<li>Unless you are quickly testing the functionality of a new package, you should avoid loading libraries this way.</li>
+<li>Loading packages via your script is important for replication purposes.</li>
+</ul></li>
 <li>In practice, I suggest starting every script with <code>library(tidyverse)</code> since doing loads <code>ggplot2</code>, <code>tibble</code>, <code>tidyr</code>, <code>readr</code>, <code>purrr</code>, <code>dplyr</code>, <code>stringr</code>, and <code>forcats</code>.</li>
 </ul>
 <p><br></p>
@@ -361,28 +377,28 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summa
 ## $ advance    &lt;dbl&gt; 45, 47, 48, 35, 47, 34, 35, 41, 31, 41, 34, 41, 25,...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols.model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)
 <span class="kw">summary</span>(ols.model)</code></pre></div>
-<pre><code>##
+<pre><code>## 
 ## Call:
 ## lm(formula = rating ~ ., data = attitude)
-##
+## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max
-## -10.9418  -4.3555   0.3158   5.5425  11.5990
-##
+##      Min       1Q   Median       3Q      Max 
+## -10.9418  -4.3555   0.3158   5.5425  11.5990 
+## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept) 10.78708   11.58926   0.931 0.361634
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 10.78708   11.58926   0.931 0.361634    
 ## complaints   0.61319    0.16098   3.809 0.000903 ***
-## privileges  -0.07305    0.13572  -0.538 0.595594
-## learning     0.32033    0.16852   1.901 0.069925 .
-## raises       0.08173    0.22148   0.369 0.715480
-## critical     0.03838    0.14700   0.261 0.796334
-## advance     -0.21706    0.17821  -1.218 0.235577
+## privileges  -0.07305    0.13572  -0.538 0.595594    
+## learning     0.32033    0.16852   1.901 0.069925 .  
+## raises       0.08173    0.22148   0.369 0.715480    
+## critical     0.03838    0.14700   0.261 0.796334    
+## advance     -0.21706    0.17821  -1.218 0.235577    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-##
+## 
 ## Residual standard error: 7.068 on 23 degrees of freedom
-## Multiple R-squared:  0.7326, Adjusted R-squared:  0.6628
+## Multiple R-squared:  0.7326, Adjusted R-squared:  0.6628 
 ## F-statistic:  10.5 on 6 and 23 DF,  p-value: 1.24e-05</code></pre>
 <p><br></p>
 </div>
@@ -404,31 +420,31 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 ## $ x4 &lt;int&gt; 4, 3, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 4, 3, 1, 2, 2, 1, 3,...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logit.model =<span class="st"> </span><span class="kw">glm</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)
 <span class="kw">summary</span>(logit.model)</code></pre></div>
-<pre><code>##
+<pre><code>## 
 ## Call:
-## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;),
+## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;), 
 ##     data = bivariate)
-##
-## Deviance Residuals:
-##     Min       1Q   Median       3Q      Max
-## -2.4540  -0.7006   0.1380   0.7975   2.2304
-##
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.4540  -0.7006   0.1380   0.7975   2.2304  
+## 
 ## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)
-## (Intercept) -3.25781    1.06372  -3.063 0.002194 **
-## x1          -0.51308    0.45749  -1.122 0.262073
-## x2          -0.09466    0.33360  -0.284 0.776613
-## x3           1.07828    1.05224   1.025 0.305481
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.25781    1.06372  -3.063 0.002194 ** 
+## x1          -0.51308    0.45749  -1.122 0.262073    
+## x2          -0.09466    0.33360  -0.284 0.776613    
+## x3           1.07828    1.05224   1.025 0.305481    
 ## x4           2.68049    0.69091   3.880 0.000105 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-##
+## 
 ## (Dispersion parameter for binomial family taken to be 1)
-##
+## 
 ##     Null deviance: 107.669  on 77  degrees of freedom
 ## Residual deviance:  74.269  on 73  degrees of freedom
 ## AIC: 84.269
-##
+## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p><br></p>
 <p>The <code>mfx</code> package is useful if you want odds ratios or marginal effects:</p>
@@ -439,23 +455,23 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 ## x2  0.9096864  0.3034753 -0.2837354 0.7766131689
 ## x3  2.9396169  3.0931711  1.0247503 0.3054810361
 ## x4 14.5922705 10.0820036  3.8796320 0.0001046146
-##
+## 
 ## $fit
-##
-## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data,
+## 
+## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data, 
 ##     start = start, control = control, x = T)
-##
+## 
 ## Coefficients:
-## (Intercept)           x1           x2           x3           x4
-##    -3.25781     -0.51308     -0.09466      1.07828      2.68049
-##
+## (Intercept)           x1           x2           x3           x4  
+##    -3.25781     -0.51308     -0.09466      1.07828      2.68049  
+## 
 ## Degrees of Freedom: 77 Total (i.e. Null);  73 Residual
-## Null Deviance:       107.7
+## Null Deviance:       107.7 
 ## Residual Deviance: 74.27     AIC: 84.27
-##
+## 
 ## $call
 ## mfx::logitor(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
-##
+## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;logitor&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mfx<span class="op">::</span><span class="kw">logitmfx</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">data =</span> bivariate) <span class="co"># Marginal Effects</span></code></pre></div>
@@ -465,121 +481,240 @@ tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</code
 ## x2 -0.02260923 0.07967311 -0.2837749 7.765829e-01
 ## x3  0.22275040 0.17606692  1.2651463 2.058189e-01
 ## x4  0.64025819 0.15620900  4.0987280 4.154268e-05
-##
+## 
 ## $fit
-##
-## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data,
+## 
+## Call:  glm(formula = formula, family = binomial(link = &quot;logit&quot;), data = data, 
 ##     start = start, control = control, x = T)
-##
+## 
 ## Coefficients:
-## (Intercept)           x1           x2           x3           x4
-##    -3.25781     -0.51308     -0.09466      1.07828      2.68049
-##
+## (Intercept)           x1           x2           x3           x4  
+##    -3.25781     -0.51308     -0.09466      1.07828      2.68049  
+## 
 ## Degrees of Freedom: 77 Total (i.e. Null);  73 Residual
-## Null Deviance:       107.7
+## Null Deviance:       107.7 
 ## Residual Deviance: 74.27     AIC: 84.27
-##
+## 
 ## $dcvar
 ## [1] &quot;x3&quot;
-##
+## 
 ## $call
 ## mfx::logitmfx(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
-##
+## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;logitmfx&quot;</code></pre>
 <p><br></p>
 </div>
-<div id="to-be-added" class="section level3">
-<h3>To Be Added</h3>
-<ul>
-<li>Robust Standard Errors
-<ul>
-<li>Syntax can differ greatly based on what you're aiming to accomplish.</li>
-</ul></li>
-<li>Poisson/Negative Binomial Regressions</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">poisson.model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3,, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df.goes.here)
+<div id="poissonnegative-binomial-regressions" class="section level3">
+<h3>Poisson/Negative Binomial Regressions</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">poisson.model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df.goes.here)
 <span class="kw">summary</span>(poisson.model)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">neg.binomial.model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">data =</span> df.goes.here)
+<p><br></p>
+<p>Using sample data from the <code>AER</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(RecreationDemand, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)
+poisson.model =<span class="st"> </span><span class="kw">glm</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> poisson, <span class="dt">data =</span> RecreationDemand)
+<span class="kw">summary</span>(poisson.model)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = trips ~ ., family = poisson, data = RecreationDemand)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -11.8465   -1.1411   -0.8896   -0.4780   18.6071  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.264993   0.093722   2.827  0.00469 ** 
+## quality      0.471726   0.017091  27.602  &lt; 2e-16 ***
+## skiyes       0.418214   0.057190   7.313 2.62e-13 ***
+## income      -0.111323   0.019588  -5.683 1.32e-08 ***
+## userfeeyes   0.898165   0.078985  11.371  &lt; 2e-16 ***
+## costC       -0.003430   0.003118  -1.100  0.27131    
+## costS       -0.042536   0.001670 -25.467  &lt; 2e-16 ***
+## costH        0.036134   0.002710  13.335  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 4849.7  on 658  degrees of freedom
+## Residual deviance: 2305.8  on 651  degrees of freedom
+## AIC: 3074.9
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p>When estimating Poisson models, always check for overdispersion:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AER<span class="op">::</span><span class="kw">dispersiontest</span>(poisson.model)</code></pre></div>
+<pre><code>## 
+##  Overdispersion test
+## 
+## data:  poisson.model
+## z = 2.4116, p-value = 0.007941
+## alternative hypothesis: true dispersion is greater than 1
+## sample estimates:
+## dispersion 
+##     6.5658</code></pre>
+<p>Given the overdispersion present, a negative binomial regression would be more appropriate:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">neg.binomial.model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> RecreationDemand)
 <span class="kw">summary</span>(neg.binomial.model)</code></pre></div>
-<ul>
-<li>Cox Proportional Hazards Model</li>
-</ul>
+<pre><code>## 
+## Call:
+## MASS::glm.nb(formula = trips ~ ., data = RecreationDemand, init.theta = 0.7292568331, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.9727  -0.6256  -0.4619  -0.2897   5.0494  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.121936   0.214303  -5.235 1.65e-07 ***
+## quality      0.721999   0.040117  17.998  &lt; 2e-16 ***
+## skiyes       0.612139   0.150303   4.073 4.65e-05 ***
+## income      -0.026059   0.042453  -0.614    0.539    
+## userfeeyes   0.669168   0.353021   1.896    0.058 .  
+## costC        0.048009   0.009185   5.227 1.72e-07 ***
+## costS       -0.092691   0.006653 -13.931  &lt; 2e-16 ***
+## costH        0.038836   0.007751   5.011 5.42e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(0.7293) family taken to be 1)
+## 
+##     Null deviance: 1244.61  on 658  degrees of freedom
+## Residual deviance:  425.42  on 651  degrees of freedom
+## AIC: 1669.1
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  0.7293 
+##           Std. Err.:  0.0747 
+## 
+##  2 x log-likelihood:  -1651.1150</code></pre>
+<p><br></p>
+</div>
+<div id="fixed-effects-panel-regressions" class="section level3">
+<h3>Fixed-Effects Panel Regressions</h3>
+<p>An example of a panel regression with year and individual fixed effects:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Grunfeld, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)
+plm.fixed.model =<span class="st"> </span>plm<span class="op">::</span><span class="kw">plm</span>(inv <span class="op">~</span><span class="st"> </span>value <span class="op">+</span><span class="st"> </span>capital, <span class="dt">data =</span> Grunfeld,
+                           <span class="dt">effect =</span> <span class="st">&quot;twoway&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)
+<span class="kw">summary</span>(plm.fixed.model)</code></pre></div>
+<pre><code>## Twoways effects Within Model
+## 
+## Call:
+## plm::plm(formula = inv ~ value + capital, data = Grunfeld, effect = &quot;twoway&quot;, 
+##     model = &quot;within&quot;)
+## 
+## Balanced Panel: n = 10, T = 20, N = 200
+## 
+## Residuals:
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -162.6094  -19.4710   -1.2669   19.1277  211.8420 
+## 
+## Coefficients:
+##         Estimate Std. Error t-value  Pr(&gt;|t|)    
+## value   0.117716   0.013751  8.5604 6.653e-15 ***
+## capital 0.357916   0.022719 15.7540 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Total Sum of Squares:    1615600
+## Residual Sum of Squares: 452150
+## R-Squared:      0.72015
+## Adj. R-Squared: 0.67047
+## F-statistic: 217.442 on 2 and 169 DF, p-value: &lt; 2.22e-16</code></pre>
+<p><br></p>
+</div>
+<div id="cox-proportional-hazards-model" class="section level3">
+<h3>Cox Proportional Hazards Model</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(survival)
 <span class="kw">data</span>(lung)
 cox.model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)
 <span class="kw">summary</span>(cox.model)</code></pre></div>
 <pre><code>## Call:
-## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal +
+## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal + 
 ##     wt.loss, data = lung)
-##
-##   n= 170, number of events= 123
+## 
+##   n= 170, number of events= 123 
 ##    (58 observations deleted due to missingness)
-##
-##                coef  exp(coef)   se(coef)      z Pr(&gt;|z|)
-## age       8.693e-03  1.009e+00  1.124e-02  0.773 0.439303
-## sex      -5.400e-01  5.827e-01  1.988e-01 -2.716 0.006602 **
+## 
+##                coef  exp(coef)   se(coef)      z Pr(&gt;|z|)    
+## age       8.693e-03  1.009e+00  1.124e-02  0.773 0.439303    
+## sex      -5.400e-01  5.827e-01  1.988e-01 -2.716 0.006602 ** 
 ## ph.ecog   5.152e-01  1.674e+00  1.483e-01  3.474 0.000513 ***
-## meal.cal -4.499e-05  1.000e+00  2.512e-04 -0.179 0.857865
-## wt.loss  -1.117e-02  9.889e-01  7.548e-03 -1.480 0.138841
+## meal.cal -4.499e-05  1.000e+00  2.512e-04 -0.179 0.857865    
+## wt.loss  -1.117e-02  9.889e-01  7.548e-03 -1.480 0.138841    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-##
+## 
 ##          exp(coef) exp(-coef) lower .95 upper .95
 ## age         1.0087     0.9913    0.9868    1.0312
 ## sex         0.5827     1.7160    0.3947    0.8604
 ## ph.ecog     1.6739     0.5974    1.2517    2.2384
 ## meal.cal    1.0000     1.0000    0.9995    1.0004
 ## wt.loss     0.9889     1.0112    0.9744    1.0036
-##
+## 
 ## Concordance= 0.64  (se = 0.03 )
 ## Rsquare= 0.123   (max possible= 0.998 )
 ## Likelihood ratio test= 22.34  on 5 df,   p=5e-04
 ## Wald test            = 21.31  on 5 df,   p=7e-04
 ## Score (logrank) test = 21.86  on 5 df,   p=6e-04</code></pre>
+<p><br></p>
+<p>Everything below this point is a work in progress...</p>
+<p><br></p>
+</div>
+<div id="robust-standard-errors" class="section level3">
+<h3>Robust Standard Errors</h3>
 <ul>
-<li>Fixed-Effects/Random-Effects Panel Regressions</li>
+<li>Syntax can differ greatly based on what you're aiming to accomplish.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plm<span class="op">::</span><span class="kw">plm</span>()</code></pre></div>
-<ul>
-<li>Ordinal Logit Regression</li>
-</ul>
+<p><br></p>
+</div>
+<div id="ordinal-logit-regression" class="section level3">
+<h3>Ordinal Logit Regression</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MASS<span class="op">::</span><span class="kw">polr</span>()</code></pre></div>
-<ul>
-<li>Multinomial Logistic Regression</li>
-</ul>
+<p><br></p>
+</div>
+<div id="multinomial-logistic-regression" class="section level3">
+<h3>Multinomial Logistic Regression</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nnet<span class="op">::</span><span class="kw">multinom</span>()</code></pre></div>
-<ul>
-<li>Instrumental Variable Regression by Two-Stage Least Squares</li>
-</ul>
+<p><br></p>
+</div>
+<div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level3">
+<h3>Instrumental Variable Regression by Two-Stage Least Squares</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AER<span class="op">::</span><span class="kw">ivreg</span>()</code></pre></div>
-<ul>
-<li>Multilevel Mixed-Effects Models</li>
-</ul>
+<p><br></p>
+</div>
+<div id="multilevel-mixed-effects-models" class="section level3">
+<h3>Multilevel Mixed-Effects Models</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lme4<span class="op">::</span><span class="kw">lmer</span>()</code></pre></div>
-<ul>
-<li>ERGM and SIENA
-<ul>
-<li>Likely warrants a separate cheat sheet...</li>
-</ul></li>
-</ul>
+<p><br></p>
+</div>
+<div id="social-network-analysis-ergm-and-siena" class="section level3">
+<h3>Social Network Analysis, ERGM, and SIENA</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(statnet)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ergm<span class="op">::</span><span class="kw">ergm</span>()</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">RSiena<span class="op">::</span><span class="kw">siena07</span>()</code></pre></div>
+<p><br></p>
+</div>
+<div id="survey-analysis" class="section level3">
+<h3>Survey Analysis</h3>
 <ul>
-<li>Data Visualization
-<ul>
-<li>Also warrants its own page.</li>
-</ul></li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(ggcorrplot)</code></pre></div>
-<ul>
-<li>Survey Analysis (?)
-<ul>
-<li>Industry seems to prefer Stata, SPSS, and SAS for this; might not bother.</li>
-</ul></li>
+<li>Industry seems to prefer SPSS, SAS, and Stata for this; might not bother.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(survey)</code></pre></div>
+<p><br></p>
+</div>
+<div id="data-visualization" class="section level3">
+<h3>Data Visualization</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(ggcorrplot)</code></pre></div>
+<p><br></p>
+</div>
+<div id="regression-table-output" class="section level3">
+<h3>Regression Table Output</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(texreg)</code></pre></div>
 </div>
 
 
