@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-04-10" />
+<meta name="date" content="2019-04-25" />
 
 <title>R Cheat Sheet</title>
 
@@ -362,6 +362,9 @@ $(document).ready(function () {
         <li>
   <a href="VictorHuggCV.pdf">Academic CV (PDF)</a>
 </li>
+<li>
+  <a href="https://scholar.google.com/citations?user=C0mYOJMAAAAJ">Google Scholar</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -375,7 +378,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">R Cheat Sheet</h1>
-<h4 class="date">April 10, 2019</h4>
+<h4 class="date">April 25, 2019</h4>
 
 </div>
 
@@ -428,7 +431,7 @@ img {
 </ul></li>
 <li>(Optional, Windows Only) Download and install Rtools: <a href="https://cran.r-project.org/bin/windows/Rtools/">https://cran.r-project.org/bin/windows/Rtools/</a>
 <ul>
-<li>Having Rtools installed will allow R to compile packages from source.</li>
+<li>Having Rtools installed will allow R to compile packages from source, which confers a performance boost.</li>
 </ul></li>
 <li>Download and install RStudio: <a href="https://www.rstudio.com/products/rstudio/download/#download">https://www.rstudio.com/products/rstudio/download/#download</a>
 <ul>
@@ -471,7 +474,7 @@ img {
 <li>RStudio Alternative: “Packages” Pane &gt; Check Off Desired Packages
 <ul>
 <li>Unless you are quickly testing the functionality of a new package, you should avoid loading libraries this way.</li>
-<li>Loading packages via your script is important for replication purposes.</li>
+<li>Loading packages via script is important for replication purposes and saves a significant amount of time.</li>
 </ul></li>
 <li>In practice, I suggest starting every script with <code>library(tidyverse)</code> since doing loads <code>ggplot2</code>, <code>tibble</code>, <code>tidyr</code>, <code>readr</code>, <code>purrr</code>, <code>dplyr</code>, <code>stringr</code>, and <code>forcats</code>.</li>
 </ul>
@@ -479,23 +482,23 @@ img {
 </div>
 <div id="use-command-from-non-loaded-package" class="section level3">
 <h3>Use Command from Non-Loaded Package</h3>
-<p>There’s no need to load an entire package if you only need one function from it. Instead, use a double colon, like so:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">df.stata =<span class="st"> </span>haven<span class="op">::</span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</a></code></pre></div>
+<p>If you need a single command from a package, use a double colon to call it; doing so obviates the need to load the entire package, which helps to prevent conflicts in the command namespace.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">df_stata =<span class="st"> </span>haven<span class="op">::</span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="read-in-data" class="section level3">
 <h3>Read in Data</h3>
 <p>R can read virtually any tabular data file (and is rapidly improving its <a href="https://cran.r-project.org/web/views/Databases.html">database capabilities</a>).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb6-2" title="2">df.csv   =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Comma Separated Values.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2">df_csv   =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Comma Separated Values.csv&quot;</span>)</a>
 <a class="sourceLine" id="cb6-3" title="3"></a>
 <a class="sourceLine" id="cb6-4" title="4"><span class="kw">library</span>(haven)</a>
-<a class="sourceLine" id="cb6-5" title="5">df.stata =<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</a>
-<a class="sourceLine" id="cb6-6" title="6">df.sas   =<span class="st"> </span><span class="kw">read_sas</span>(<span class="st">&quot;SAS File.sas7bdat&quot;</span>)</a>
-<a class="sourceLine" id="cb6-7" title="7">df.spss  =<span class="st"> </span><span class="kw">read_spss</span>(<span class="st">&quot;SPSS File.sav&quot;</span>)</a>
+<a class="sourceLine" id="cb6-5" title="5">df_stata =<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</a>
+<a class="sourceLine" id="cb6-6" title="6">df_sas   =<span class="st"> </span><span class="kw">read_sas</span>(<span class="st">&quot;SAS File.sas7bdat&quot;</span>)</a>
+<a class="sourceLine" id="cb6-7" title="7">df_spss  =<span class="st"> </span><span class="kw">read_spss</span>(<span class="st">&quot;SPSS File.sav&quot;</span>)</a>
 <a class="sourceLine" id="cb6-8" title="8"></a>
 <a class="sourceLine" id="cb6-9" title="9"><span class="kw">library</span>(readxl)</a>
-<a class="sourceLine" id="cb6-10" title="10">df.excel =<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;Excel Spreadsheet.xlsx&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb6-10" title="10">df_excel =<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;Excel Spreadsheet.xlsx&quot;</span>)</a></code></pre></div>
 <ul>
 <li>RStudio Alternative: “File” Menu &gt; “Import Dataset”</li>
 </ul>
@@ -516,8 +519,8 @@ img {
 </div>
 <div id="linear-regression" class="section level3">
 <h3>Linear Regression</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">ols.model =<span class="st"> </span><span class="kw">lm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">data =</span> df.goes.here)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw">summary</span>(ols.model)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">ols_model =<span class="st"> </span><span class="kw">lm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">summary</span>(ols_model)</a></code></pre></div>
 <p><br></p>
 <p>Use a period if you want every variable (except the dependent variable specified) to be used as a covariate:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">tibble<span class="op">::</span><span class="kw">glimpse</span>(attitude) <span class="co"># Glimpse at the data; better than head() or str(), in my opinion.</span></a></code></pre></div>
@@ -530,8 +533,8 @@ img {
 ## $ raises     &lt;dbl&gt; 61, 63, 76, 54, 71, 54, 66, 70, 71, 62, 58, 59, 55,...
 ## $ critical   &lt;dbl&gt; 92, 73, 86, 84, 83, 49, 68, 66, 83, 80, 67, 74, 63,...
 ## $ advance    &lt;dbl&gt; 45, 47, 48, 35, 47, 34, 35, 41, 31, 41, 34, 41, 25,...</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">ols.model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw">summary</span>(ols.model)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">ols_model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">summary</span>(ols_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = rating ~ ., data = attitude)
@@ -559,8 +562,8 @@ img {
 </div>
 <div id="logistic-regression" class="section level3">
 <h3>Logistic Regression</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">logit.model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df.goes.here)</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw">summary</span>(logit.model)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df.goes.here)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
 <p><br></p>
 <p>Using sample data from the <code>Zelig</code> package:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">data</span>(bivariate, <span class="dt">package =</span> <span class="st">&quot;Zelig&quot;</span>)</a>
@@ -573,8 +576,8 @@ img {
 ## $ y2 &lt;int&gt; 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1,...
 ## $ y1 &lt;int&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0,...
 ## $ x4 &lt;int&gt; 4, 3, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 4, 3, 1, 2, 2, 1, 3,...</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">logit.model =<span class="st"> </span><span class="kw">glm</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)</a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">summary</span>(logit.model)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;), 
@@ -635,13 +638,13 @@ img {
 </div>
 <div id="poissonnegative-binomial-regressions" class="section level3">
 <h3>Poisson/Negative Binomial Regressions</h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">poisson.model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df.goes.here)</a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="kw">summary</span>(poisson.model)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">poisson_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df.goes.here)</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
 <p><br></p>
 <p>Using sample data from the <code>AER</code> package:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">data</span>(RecreationDemand, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)</a>
-<a class="sourceLine" id="cb23-2" title="2">poisson.model =<span class="st"> </span><span class="kw">glm</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> poisson, <span class="dt">data =</span> RecreationDemand)</a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="kw">summary</span>(poisson.model)</a></code></pre></div>
+<a class="sourceLine" id="cb23-2" title="2">poisson_model =<span class="st"> </span><span class="kw">glm</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> poisson, <span class="dt">data =</span> RecreationDemand)</a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = trips ~ ., family = poisson, data = RecreationDemand)
@@ -671,19 +674,19 @@ img {
 ## 
 ## Number of Fisher Scoring iterations: 7</code></pre>
 <p>When estimating Poisson models, check for overdispersion:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">AER<span class="op">::</span><span class="kw">dispersiontest</span>(poisson.model)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">AER<span class="op">::</span><span class="kw">dispersiontest</span>(poisson_model)</a></code></pre></div>
 <pre><code>## 
 ##  Overdispersion test
 ## 
-## data:  poisson.model
+## data:  poisson_model
 ## z = 2.4116, p-value = 0.007941
 ## alternative hypothesis: true dispersion is greater than 1
 ## sample estimates:
 ## dispersion 
 ##     6.5658</code></pre>
 <p>Given the overdispersion present, a negative binomial regression would be more appropriate:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">neg.binomial.model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> RecreationDemand)</a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="kw">summary</span>(neg.binomial.model)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">neg_binom_model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> RecreationDemand)</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">summary</span>(neg_binom_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## MASS::glm.nb(formula = trips ~ ., data = RecreationDemand, init.theta = 0.7292568331, 
@@ -725,9 +728,9 @@ img {
 <h3>Fixed-Effects Panel Regressions</h3>
 <p>An example of a panel regression with year and individual fixed effects:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">data</span>(Grunfeld, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</a>
-<a class="sourceLine" id="cb29-2" title="2">plm.fixed.model =<span class="st"> </span>plm<span class="op">::</span><span class="kw">plm</span>(inv <span class="op">~</span><span class="st"> </span>value <span class="op">+</span><span class="st"> </span>capital, <span class="dt">data =</span> Grunfeld,</a>
+<a class="sourceLine" id="cb29-2" title="2">plm_fixed_model =<span class="st"> </span>plm<span class="op">::</span><span class="kw">plm</span>(inv <span class="op">~</span><span class="st"> </span>value <span class="op">+</span><span class="st"> </span>capital, <span class="dt">data =</span> Grunfeld,</a>
 <a class="sourceLine" id="cb29-3" title="3">                           <span class="dt">effect =</span> <span class="st">&quot;twoway&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</a>
-<a class="sourceLine" id="cb29-4" title="4"><span class="kw">summary</span>(plm.fixed.model)</a></code></pre></div>
+<a class="sourceLine" id="cb29-4" title="4"><span class="kw">summary</span>(plm_fixed_model)</a></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -758,8 +761,8 @@ img {
 <h3>Cox Proportional Hazards Model</h3>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">library</span>(survival)</a>
 <a class="sourceLine" id="cb31-2" title="2"><span class="kw">data</span>(lung)</a>
-<a class="sourceLine" id="cb31-3" title="3">cox.model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)</a>
-<a class="sourceLine" id="cb31-4" title="4"><span class="kw">summary</span>(cox.model)</a></code></pre></div>
+<a class="sourceLine" id="cb31-3" title="3">cox_model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)</a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="kw">summary</span>(cox_model)</a></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal + 
 ##     wt.loss, data = lung)
@@ -829,7 +832,7 @@ img {
 <div id="survey-analysis" class="section level3">
 <h3>Survey Analysis</h3>
 <ul>
-<li>Industry seems to prefer SPSS, SAS, and Stata for this; might not bother.</li>
+<li>Since industry seems to prefer SPSS, SAS, and Stata for this, I might not bother writing out this section.</li>
 </ul>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">library</span>(survey)</a></code></pre></div>
 <p><br></p>
