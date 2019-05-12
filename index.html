@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-04-25" />
+<meta name="date" content="2019-05-11" />
 
 <title>R Cheat Sheet</title>
 
@@ -378,7 +378,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">R Cheat Sheet</h1>
-<h4 class="date">April 25, 2019</h4>
+<h4 class="date">May 11, 2019</h4>
 
 </div>
 
@@ -397,12 +397,13 @@ $(document).ready(function () {
 <li><a href="#poissonnegative-binomial-regressions">Poisson/Negative Binomial Regressions</a></li>
 <li><a href="#fixed-effects-panel-regressions">Fixed-Effects Panel Regressions</a></li>
 <li><a href="#cox-proportional-hazards-model">Cox Proportional Hazards Model</a></li>
+<li><a href="#multiple-imputation">Multiple Imputation</a></li>
 <li><a href="#robust-standard-errors">Robust Standard Errors</a></li>
 <li><a href="#ordinal-logit-regression">Ordinal Logit Regression</a></li>
 <li><a href="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
 <li><a href="#instrumental-variable-regression-by-two-stage-least-squares">Instrumental Variable Regression by Two-Stage Least Squares</a></li>
 <li><a href="#multilevel-mixed-effects-models">Multilevel Mixed-Effects Models</a></li>
-<li><a href="#social-network-analysis-ergm-and-siena">Social Network Analysis, ERGM, and SIENA</a></li>
+<li><a href="#social-network-analysis-ergm-and-siena">Social Network Analysis — ERGM and SIENA</a></li>
 <li><a href="#survey-analysis">Survey Analysis</a></li>
 <li><a href="#data-visualization">Data Visualization</a></li>
 <li><a href="#regression-table-output">Regression Table Output</a></li>
@@ -419,7 +420,7 @@ img {
 
 </style>
 <p><br></p>
-<p>Victor here. I’m a PhD candidate at UIC. Hope this quick R guide proves useful to you.</p>
+<p>Victor here. A PDF of my current CV is linked above. R code below.</p>
 <p><br></p>
 <div id="install-r-and-rstudio" class="section level3">
 <h3>Install R and RStudio</h3>
@@ -508,12 +509,12 @@ img {
 <h3>Data Wrangling</h3>
 <p>The package “dplyr,” included in the <a href="https://www.tidyverse.org/">tidyverse</a>, includes several verbs that ease data munging:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb7-2" title="2">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>()    <span class="co"># Subset columns.</span></a>
-<a class="sourceLine" id="cb7-3" title="3">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>()    <span class="co"># Subset rows.</span></a>
-<a class="sourceLine" id="cb7-4" title="4">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>()   <span class="co"># Sort/order by columns.</span></a>
-<a class="sourceLine" id="cb7-5" title="5">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>()    <span class="co"># Create new variables/columns.</span></a>
-<a class="sourceLine" id="cb7-6" title="6">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>()  <span class="co"># Groups data by variable.</span></a>
-<a class="sourceLine" id="cb7-7" title="7">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>() <span class="co"># Reduce multiple values to a single value.</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-2" title="2">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>()    <span class="co"># Subset columns.</span></a>
+<a class="sourceLine" id="cb7-3" title="3">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>()    <span class="co"># Subset rows.</span></a>
+<a class="sourceLine" id="cb7-4" title="4">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>()   <span class="co"># Sort/order by columns.</span></a>
+<a class="sourceLine" id="cb7-5" title="5">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>()    <span class="co"># Create new variables/columns.</span></a>
+<a class="sourceLine" id="cb7-6" title="6">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>()  <span class="co"># Groups data by variable.</span></a>
+<a class="sourceLine" id="cb7-7" title="7">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>() <span class="co"># Reduce multiple values to a single value.</span></a></code></pre></div>
 <p>The arduous process of data tidying falls outside the scope of a cheat sheet, but rest assured that the above verbs combined with the powerful pipe operator will make your life significantly easier.</p>
 <p><br></p>
 </div>
@@ -562,7 +563,7 @@ img {
 </div>
 <div id="logistic-regression" class="section level3">
 <h3>Logistic Regression</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df.goes.here)</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df_goes_here)</a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
 <p><br></p>
 <p>Using sample data from the <code>Zelig</code> package:</p>
@@ -638,7 +639,7 @@ img {
 </div>
 <div id="poissonnegative-binomial-regressions" class="section level3">
 <h3>Poisson/Negative Binomial Regressions</h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">poisson_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df.goes.here)</a>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">poisson_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df_goes_here)</a>
 <a class="sourceLine" id="cb22-2" title="2"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
 <p><br></p>
 <p>Using sample data from the <code>AER</code> package:</p>
@@ -787,7 +788,6 @@ img {
 ## wt.loss     0.9889     1.0112    0.9744    1.0036
 ## 
 ## Concordance= 0.64  (se = 0.03 )
-## Rsquare= 0.123   (max possible= 0.998 )
 ## Likelihood ratio test= 22.34  on 5 df,   p=5e-04
 ## Wald test            = 21.31  on 5 df,   p=7e-04
 ## Score (logrank) test = 21.86  on 5 df,   p=6e-04</code></pre>
@@ -795,38 +795,50 @@ img {
 <p>Everything below this point is a work in progress…</p>
 <p><br></p>
 </div>
+<div id="multiple-imputation" class="section level3">
+<h3>Multiple Imputation</h3>
+<ul>
+<li>Complex enough to warrant its own page.</li>
+</ul>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">library</span>(Amelia)</a></code></pre></div>
+</div>
 <div id="robust-standard-errors" class="section level3">
 <h3>Robust Standard Errors</h3>
 <ul>
 <li>Syntax can differ greatly based on what you’re aiming to accomplish.</li>
 </ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">library</span>(sandwich)</a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="kw">library</span>(multiwayvcov)</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="ordinal-logit-regression" class="section level3">
 <h3>Ordinal Logit Regression</h3>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">MASS<span class="op">::</span><span class="kw">polr</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">MASS<span class="op">::</span><span class="kw">polr</span>()</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="multinomial-logistic-regression" class="section level3">
 <h3>Multinomial Logistic Regression</h3>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">nnet<span class="op">::</span><span class="kw">multinom</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">nnet<span class="op">::</span><span class="kw">multinom</span>()</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level3">
 <h3>Instrumental Variable Regression by Two-Stage Least Squares</h3>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">AER<span class="op">::</span><span class="kw">ivreg</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">AER<span class="op">::</span><span class="kw">ivreg</span>()</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="multilevel-mixed-effects-models" class="section level3">
 <h3>Multilevel Mixed-Effects Models</h3>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">lme4<span class="op">::</span><span class="kw">lmer</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">lme4<span class="op">::</span><span class="kw">lmer</span>()</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="social-network-analysis-ergm-and-siena" class="section level3">
-<h3>Social Network Analysis, ERGM, and SIENA</h3>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">library</span>(statnet)</a></code></pre></div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">ergm<span class="op">::</span><span class="kw">ergm</span>()</a></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">RSiena<span class="op">::</span><span class="kw">siena07</span>()</a></code></pre></div>
+<h3>Social Network Analysis — ERGM and SIENA</h3>
+<ul>
+<li>Complex enough to warrant its own page.</li>
+</ul>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">library</span>(statnet)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">ergm<span class="op">::</span><span class="kw">ergm</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">RSiena<span class="op">::</span><span class="kw">siena07</span>()</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="survey-analysis" class="section level3">
@@ -834,18 +846,18 @@ img {
 <ul>
 <li>Since industry seems to prefer SPSS, SAS, and Stata for this, I might not bother writing out this section.</li>
 </ul>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">library</span>(survey)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">library</span>(survey)</a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">library</span>(psych) <span class="co"># pairs.panels() and Cronbach&#39;s Alpha</span></a></code></pre></div>
 <p><br></p>
 </div>
 <div id="data-visualization" class="section level3">
 <h3>Data Visualization</h3>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb41-2" title="2"><span class="kw">library</span>(ggcorrplot)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="regression-table-output" class="section level3">
 <h3>Regression Table Output</h3>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">library</span>(texreg)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">library</span>(texreg)</a></code></pre></div>
 </div>
 
 
