@@ -11,7 +11,7 @@
 
 
 
-<title>Victor’s Very Professional Website</title>
+<title>Using R for Social Network Analysis</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,6 +23,100 @@
 <link href="favicon.png" rel="icon" type="image/x-icon">
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; } /* Error */
+code span.ex { color: #0099ff; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -279,41 +373,45 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Victor’s Very Professional Website</h1>
+<h1 class="title toc-ignore">Using R for Social Network Analysis</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#loading-statnet">Loading statnet</a></li>
+<li><a href="#creating-network-objects-calculating-network-metrics-etc.">Creating Network Objects, Calculating Network Metrics, etc.</a></li>
+<li><a href="#ergm">ERGM</a></li>
+<li><a href="#siena">SIENA</a></li>
+</ul>
+</div>
 
 <link rel="stylesheet" href="tomorrow-night-bright.css">
 <script src="highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <p><link rel="stylesheet" href="custom.css"></p>
-<p><i>Last Updated: January 27, 2020</i></p>
 <p><br></p>
-<pre class="r"><code>tibble::glimpse(victor_hugg)</code></pre>
-<pre><code>## List of 12
-##  $ age                  : num 29
-##  $ origin               : chr &quot;Des Moines, Iowa&quot;
-##  $ residence            : chr &quot;Chicago, Illinois&quot;
-##  $ fields               : chr [1:3] &quot;public administration&quot; &quot;political science&quot; &quot;philosophy&quot;
-##  $ ideal_job_start_date : Date[1:1], format: &quot;2020-06-08&quot;
-##  $ has_PhD              : logi TRUE
-##  $ degree_count         : num 4
-##  $ alma_maters          : chr [1:3] &quot;UIC&quot; &quot;UIUC&quot; &quot;Iowa State&quot;
-##  $ software_expert      : chr [1:5] &quot;R&quot; &quot;RStudio&quot; &quot;Stata&quot; &quot;Windows 10&quot; ...
-##  $ software_intermediate: chr [1:3] &quot;LaTeX&quot; &quot;Markdown&quot; &quot;HTML/CSS&quot;
-##  $ software_novice      : chr [1:2] &quot;Python&quot; &quot;SQL&quot;
-##  $ has_social_life      : logi FALSE</code></pre>
-<p><br></p>
-<div id="statistical-programming-in-r" class="section level2">
-<h2>Statistical Programming in R</h2>
-<p>Once the Graduate College has accepted the final version of my dissertation, this is where you will be able find a collection of R code and comments that will have been hastily thrown together in an effort to lure future employers into hiring me — or at least that’s the plan. The R cheat sheet that used to be here has been moved to its own page (see above).</p>
-<p>In the meantime, enjoy this placeholder cat.</p>
+<div id="loading-statnet" class="section level2">
+<h2>Loading statnet</h2>
+<p>The <code>statnet</code> package, while amazing, has the longest start-up message of any R package I have ever seen. Suppress it.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(statnet))</a></code></pre></div>
 <p><br></p>
 </div>
-<div id="placeholder-kitten" class="section level2">
-<h2>Placeholder Kitten</h2>
-<p><img src="https://placekitten.com/500/500" width="100%" /></p>
+<div id="creating-network-objects-calculating-network-metrics-etc." class="section level2">
+<h2>Creating Network Objects, Calculating Network Metrics, etc.</h2>
+<p>I’m going to skip writing this section for now, as I mainly want to convey to people how you should be using multiple CPU cores for estimating ERGM and SIENA models.</p>
+<p><br></p>
+</div>
+<div id="ergm" class="section level2">
+<h2>ERGM</h2>
+<p>Coming soon!</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">ergm<span class="op">::</span><span class="kw">ergm</span>()</a></code></pre></div>
+<p><br></p>
+</div>
+<div id="siena" class="section level2">
+<h2>SIENA</h2>
+<p>Coming soon!</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">RSiena<span class="op">::</span><span class="kw">siena07</span>()</a></code></pre></div>
 </div>
 
 
