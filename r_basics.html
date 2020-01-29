@@ -294,6 +294,7 @@ $(document).ready(function () {
 <li><a href="#using-commands-from-non-loaded-packages">Using Commands from Non-Loaded Packages</a></li>
 <li><a href="#reading-in-data">Reading in Data</a></li>
 <li><a href="#data-wrangling">Data Wrangling</a></li>
+<li><a href="#data-visualization">Data Visualization</a></li>
 <li><a href="#correlation">Correlation</a></li>
 <li><a href="#linear-regression">Linear Regression</a></li>
 <li><a href="#formal-checks-of-ols-model-assumptions">Formal Checks of OLS Model Assumptions</a></li>
@@ -309,7 +310,6 @@ $(document).ready(function () {
 <li><a href="#instrumental-variable-regression-by-two-stage-least-squares">Instrumental Variable Regression by Two-Stage Least Squares</a></li>
 <li><a href="#multilevel-mixed-effects-models">Multilevel Mixed-Effects Models</a></li>
 <li><a href="#regression-table-output">Regression Table Output</a></li>
-<li><a href="#data-visualization">Data Visualization</a></li>
 </ul>
 </div>
 
@@ -325,7 +325,7 @@ $(document).ready(function () {
 <ul>
 <li>For Windows, click on “base” to arrive at the download link.</li>
 <li>For macOS, you want the file that ends in “.pkg”</li>
-<li>For Linux, you almost certainly do not need my help.</li>
+<li>For Linux, you are almost certainly an advanced user who already knows the best way to install R for your distribution.</li>
 </ul></li>
 <li>(Optional, Windows Only) Download and install Rtools: <a href="https://cran.r-project.org/bin/windows/Rtools/">https://cran.r-project.org/bin/windows/Rtools/</a>
 <ul>
@@ -381,8 +381,8 @@ $(document).ready(function () {
 <ul>
 <li>RStudio Alternative: “Packages” Pane &gt; Check Off Desired Packages
 <ul>
-<li>Unless you are quickly testing the functionality of a new package, you should avoid loading libraries this way.</li>
-<li>Loading packages via script is important for replication purposes and saves a significant amount of time.</li>
+<li>You should avoid loading libraries this way, unless you are quickly testing the functionality of a new package.</li>
+<li>Loading packages via script instead of in an ad hoc manner is important for replication purposes and saves a significant amount of time.</li>
 </ul></li>
 <li>In practice, I suggest starting every script with <code>library(tidyverse)</code> since doing loads <code>ggplot2</code>, <code>tibble</code>, <code>tidyr</code>, <code>readr</code>, <code>purrr</code>, <code>dplyr</code>, <code>stringr</code>, and <code>forcats</code>.</li>
 </ul>
@@ -422,12 +422,17 @@ df_example %&gt;% arrange()   # Sort/order by columns.
 df_example %&gt;% mutate()    # Create new variables/columns.
 df_example %&gt;% group_by()  # Groups data by variable.
 df_example %&gt;% summarize() # Reduce multiple values to a single value.</code></pre>
-<p>The arduous process of data tidying falls outside the scope of a cheat sheet, but rest assured that the above verbs combined with the powerful pipe operator will make your life significantly easier.</p>
+<p>The arduous process of data tidying falls outside the scope of a cheat sheet, but learning how to combine the above verbs with the powerful pipe operator will make your life significantly easier.</p>
+<p><br></p>
+</div>
+<div id="data-visualization" class="section level2">
+<h2>Data Visualization</h2>
+<p>Check out the <a href="https://www.r-graph-gallery.com/">R Graph Gallery</a> or my <a href="index.html">R code portfolio</a> for examples.</p>
 <p><br></p>
 </div>
 <div id="correlation" class="section level2">
 <h2>Correlation</h2>
-<pre class="r"><code>tibble::glimpse(attitude) # Glimpse at the data; better than head() or str(), in my opinion.</code></pre>
+<pre class="r"><code>tibble::glimpse(attitude) # Glimpse at the data; often better than head() or str().</code></pre>
 <pre><code>## Observations: 30
 ## Variables: 7
 ## $ rating     &lt;dbl&gt; 43, 63, 71, 61, 81, 43, 58, 71, 72, 67, 64, 67, 69, 68, ...
@@ -697,8 +702,7 @@ summary(neg_binom_model)</code></pre>
 <h2>Fixed-Effects Panel Regressions</h2>
 <p>An example of a panel regression with year and individual fixed effects:</p>
 <pre class="r"><code>data(Grunfeld, package = &quot;plm&quot;)
-plm_fixed_model = plm::plm(inv ~ value + capital, data = Grunfeld,
-                           effect = &quot;twoway&quot;, model = &quot;within&quot;)
+plm_fixed_model = plm::plm(inv ~ value + capital, data = Grunfeld, effect = &quot;twoway&quot;, model = &quot;within&quot;)
 summary(plm_fixed_model)</code></pre>
 <pre><code>## Twoways effects Within Model
 ## 
@@ -765,8 +769,7 @@ summary(cox_model)</code></pre>
 <h2>Multiple Imputation</h2>
 <p>Refer to the Amelia documentation before using!</p>
 <p>I suggest that Amelia be instructed to: (1) use multiple CPU cores, (2) perform transformations on certain variables (e.g., log-linear, square root, logistic function for proportional data, and so forth), and (3) create multiple imputed datasets. You can then use the mean or median value across all imputations.</p>
-<pre class="r"><code>imputed_data = Amelia::amelia(panel_data, m = 100, cs = &quot;state&quot;, ts = &quot;year&quot;,
-                              parallel = &quot;snow&quot;, ncpus = 4) %&gt;%
+<pre class="r"><code>imputed_data = Amelia::amelia(panel_data, m = 100, cs = &quot;state&quot;, ts = &quot;year&quot;, parallel = &quot;snow&quot;, ncpus = 4) %&gt;%
   purrr::reduce(imputed_data$imputations, dplyr::bind_rows) %&gt;%
   group_by(state, year) %&gt;%
   summarize_all(median, na.rm = T)</code></pre>
@@ -774,7 +777,7 @@ summary(cox_model)</code></pre>
 </div>
 <div id="robust-standard-errors" class="section level2">
 <h2>Robust Standard Errors</h2>
-<p>For linear estimators, using the <code>estimatr</code> package is straightforward:</p>
+<p>For linear estimators, using the <code>estimatr</code> package is rather straightforward:</p>
 <pre class="r"><code>ols_robust = estimatr::lm_robust(rating ~ ., data = attitude)
 summary(ols_robust)</code></pre>
 <pre><code>## 
@@ -800,10 +803,9 @@ summary(ols_robust)</code></pre>
 </div>
 <div id="ordinal-logit-regression" class="section level2">
 <h2>Ordinal Logit Regression</h2>
-<p>Example from the <code>MASS</code> package’s documentation.</p>
+<p>An example from the <code>MASS</code> package’s documentation.</p>
 <pre class="r"><code>data(housing, package = &quot;MASS&quot;)
-ordered_logistic_model = MASS::polr(Sat ~ Infl + Type + Cont, weights = Freq,
-                                    data = housing, Hess = T)
+ordered_logistic_model = MASS::polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing, Hess = T)
 summary(ordered_logistic_model)</code></pre>
 <pre><code>## Call:
 ## MASS::polr(formula = Sat ~ Infl + Type + Cont, data = housing, 
@@ -829,17 +831,138 @@ summary(ordered_logistic_model)</code></pre>
 </div>
 <div id="multinomial-logistic-regression" class="section level2">
 <h2>Multinomial Logistic Regression</h2>
-<pre class="r"><code>nnet::multinom()</code></pre>
+<pre class="r"><code>example(birthwt, package = &quot;MASS&quot;, echo = F)
+tibble::glimpse(bwt)</code></pre>
+<pre><code>## Observations: 189
+## Variables: 9
+## $ low   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ age   &lt;int&gt; 19, 33, 20, 21, 18, 21, 22, 17, 29, 26, 19, 19, 22, 30, 18, 1...
+## $ lwt   &lt;int&gt; 182, 155, 105, 108, 107, 124, 118, 103, 123, 113, 95, 150, 95...
+## $ race  &lt;fct&gt; black, other, white, white, white, other, white, other, white...
+## $ smoke &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TR...
+## $ ptd   &lt;fct&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE...
+## $ ht    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE...
+## $ ui    &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, F...
+## $ ftv   &lt;fct&gt; 0, 2+, 1, 2+, 0, 0, 1, 1, 1, 0, 0, 1, 0, 2+, 0, 0, 0, 2+, 0, ...</code></pre>
+<pre class="r"><code>multinom_logit = nnet::multinom(low ~ ., data = bwt)</code></pre>
+<pre><code>## # weights:  12 (11 variable)
+## initial  value 131.004817 
+## iter  10 value 98.029803
+## final  value 97.737759 
+## converged</code></pre>
+<pre class="r"><code>summary(multinom_logit)</code></pre>
+<pre><code>## Call:
+## nnet::multinom(formula = low ~ ., data = bwt)
+## 
+## Coefficients:
+##                  Values  Std. Err.
+## (Intercept)  0.82320102 1.24476766
+## age         -0.03723828 0.03870437
+## lwt         -0.01565359 0.00708079
+## raceblack    1.19240391 0.53598076
+## raceother    0.74065606 0.46176615
+## smokeTRUE    0.75550487 0.42503626
+## ptdTRUE      1.34375901 0.48063449
+## htTRUE       1.91320116 0.72076133
+## uiTRUE       0.68020207 0.46434974
+## ftv1        -0.43638470 0.47941107
+## ftv2+        0.17900392 0.45639129
+## 
+## Residual Deviance: 195.4755 
+## AIC: 217.4755</code></pre>
 <p><br></p>
 </div>
 <div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level2">
 <h2>Instrumental Variable Regression by Two-Stage Least Squares</h2>
-<pre class="r"><code>AER::ivreg()</code></pre>
+<pre class="r"><code>data(CigarettesSW, package = &quot;AER&quot;)
+CigarettesSW$rprice  = with(CigarettesSW, price/cpi)
+CigarettesSW$rincome = with(CigarettesSW, income/population/cpi)
+CigarettesSW$tdiff   = with(CigarettesSW, (taxs - tax)/cpi)
+
+tibble::glimpse(CigarettesSW)</code></pre>
+<pre><code>## Observations: 96
+## Variables: 12
+## $ state      &lt;fct&gt; AL, AR, AZ, CA, CO, CT, DE, FL, GA, IA, ID, IL, IN, KS, ...
+## $ year       &lt;fct&gt; 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 19...
+## $ cpi        &lt;dbl&gt; 1.076, 1.076, 1.076, 1.076, 1.076, 1.076, 1.076, 1.076, ...
+## $ population &lt;dbl&gt; 3973000, 2327000, 3184000, 26444000, 3209000, 3201000, 6...
+## $ packs      &lt;dbl&gt; 116.4863, 128.5346, 104.5226, 100.3630, 112.9635, 109.27...
+## $ income     &lt;dbl&gt; 46014968, 26210736, 43956936, 447102816, 49466672, 60063...
+## $ tax        &lt;dbl&gt; 32.50000, 37.00000, 31.00000, 26.00000, 31.00000, 42.000...
+## $ price      &lt;dbl&gt; 102.18167, 101.47500, 108.57875, 107.83734, 94.26666, 12...
+## $ taxs       &lt;dbl&gt; 33.34834, 37.00000, 36.17042, 32.10400, 31.00000, 51.483...
+## $ rprice     &lt;dbl&gt; 94.96438, 94.30762, 100.90962, 100.22058, 87.60842, 118....
+## $ rincome    &lt;dbl&gt; 10.763866, 10.468165, 12.830456, 15.713321, 14.326190, 1...
+## $ tdiff      &lt;dbl&gt; 0.7884121, 0.0000000, 4.8052211, 5.6728627, 0.0000000, 8...</code></pre>
+<pre class="r"><code>iv_regression = AER::ivreg(log(packs) ~ log(rprice) + log(rincome) | log(rincome) + tdiff + I(tax/cpi),
+                           data = CigarettesSW, subset = year == &quot;1995&quot;)
+summary(iv_regression)</code></pre>
+<pre><code>## 
+## Call:
+## AER::ivreg(formula = log(packs) ~ log(rprice) + log(rincome) | 
+##     log(rincome) + tdiff + I(tax/cpi), data = CigarettesSW, subset = year == 
+##     &quot;1995&quot;)
+## 
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -0.6006931 -0.0862222 -0.0009999  0.1164699  0.3734227 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    9.8950     1.0586   9.348 4.12e-12 ***
+## log(rprice)   -1.2774     0.2632  -4.853 1.50e-05 ***
+## log(rincome)   0.2804     0.2386   1.175    0.246    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1879 on 45 degrees of freedom
+## Multiple R-Squared: 0.4294,  Adjusted R-squared: 0.4041 
+## Wald test: 13.28 on 2 and 45 DF,  p-value: 2.931e-05</code></pre>
 <p><br></p>
 </div>
 <div id="multilevel-mixed-effects-models" class="section level2">
 <h2>Multilevel Mixed-Effects Models</h2>
-<pre class="r"><code>lme4::lmer()</code></pre>
+<pre class="r"><code>library(lme4)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
+##   method                          from
+##   cooks.distance.influence.merMod car 
+##   influence.merMod                car 
+##   dfbeta.influence.merMod         car 
+##   dfbetas.influence.merMod        car</code></pre>
+<pre class="r"><code>tibble::glimpse(sleepstudy)</code></pre>
+<pre><code>## Observations: 180
+## Variables: 3
+## $ Reaction &lt;dbl&gt; 249.5600, 258.7047, 250.8006, 321.4398, 356.8519, 414.6901...
+## $ Days     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9...
+## $ Subject  &lt;fct&gt; 308, 308, 308, 308, 308, 308, 308, 308, 308, 308, 309, 309...</code></pre>
+<pre class="r"><code>mixed_effects_model = lmer(Reaction ~ Days + (Days | Subject), data = sleepstudy)
+summary(mixed_effects_model)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: Reaction ~ Days + (Days | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1743.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9536 -0.4634  0.0231  0.4633  5.1793 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  Subject  (Intercept) 611.90   24.737       
+##           Days         35.08    5.923   0.07
+##  Residual             654.94   25.592       
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  251.405      6.824  36.843
+## Days          10.467      1.546   6.771
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.138</code></pre>
 <p><br></p>
 </div>
 <div id="regression-table-output" class="section level2">
@@ -847,11 +970,6 @@ summary(ordered_logistic_model)</code></pre>
 <pre class="r"><code>library(texreg)
 library(stargazer)
 library(xtable)</code></pre>
-<p><br></p>
-</div>
-<div id="data-visualization" class="section level2">
-<h2>Data Visualization</h2>
-<p>Check out the <a href="https://www.r-graph-gallery.com/">R Graph Gallery</a> or my <a href="index.html">R code portfolio</a> for examples.</p>
 </div>
 
 
