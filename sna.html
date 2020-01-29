@@ -394,7 +394,7 @@ $(document).ready(function () {
 <div id="loading-statnet" class="section level2">
 <h2>Loading statnet</h2>
 <p>The <code>statnet</code> package, while amazing, has the longest start-up message of any R package I have ever seen. Suppress it.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(statnet))</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">suppressMessages</span>(<span class="kw">library</span>(statnet))</a></code></pre></div>
 <p><br></p>
 </div>
 <div id="creating-network-objects-calculating-network-metrics-etc." class="section level2">
@@ -404,14 +404,82 @@ $(document).ready(function () {
 </div>
 <div id="ergm" class="section level2">
 <h2>ERGM</h2>
-<p>Coming soon!</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">ergm<span class="op">::</span><span class="kw">ergm</span>()</a></code></pre></div>
+<p>First, load in example data using code from the ERGM command documentation.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># Load in a synthetic network that looks like a molecule.</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">data</span>(molecule)</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co"># Create a nodal attribute.</span></a>
+<a class="sourceLine" id="cb2-5" title="5">molecule <span class="op">%v%</span><span class="st"> &quot;atomic_type&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co"># Summary information about the network (minus the edgelist matrix).</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="kw">summary</span>(molecule, <span class="dt">print.adj =</span> F)</a></code></pre></div>
+<pre><code>## Network attributes:
+##   vertices = 20
+##   directed = FALSE
+##   hyper = FALSE
+##   loops = FALSE
+##   multiple = FALSE
+##   bipartite = FALSE
+##  total edges = 28 
+##    missing edges = 0 
+##    non-missing edges = 28 
+##  density = 0.1473684 
+## 
+## Vertex attributes:
+## 
+##  atomic_type:
+##    numeric valued attribute
+##    attribute summary:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    1.00    2.00    2.05    3.00    3.00 
+## 
+## No edge attributes</code></pre>
+<p>Let’s time how long it takes to model. For brevity, I’m going to suppress messages that the <code>ergm()</code> command usually outputs (I am also pumping up the <code>MCMC.samplesize</code> to demonstrate how helpful using more cores can be).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">system.time</span>(ergm_model &lt;-<span class="st"> </span><span class="kw">suppressMessages</span>(</a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="kw">ergm</span>(molecule <span class="op">~</span><span class="st"> </span>edges <span class="op">+</span><span class="st"> </span><span class="kw">kstar</span>(<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>triangle <span class="op">+</span><span class="st"> </span><span class="kw">nodematch</span>(<span class="st">&quot;atomic_type&quot;</span>),</a>
+<a class="sourceLine" id="cb4-3" title="3">       <span class="dt">control =</span> <span class="kw">control.ergm</span>(<span class="dt">MCMC.samplesize =</span> <span class="dv">25000</span>)))</a>
+<a class="sourceLine" id="cb4-4" title="4">  )</a></code></pre></div>
+<pre><code>## Warning: `set_attrs()` is deprecated as of rlang 0.3.0
+## This warning is displayed once per session.</code></pre>
+<pre><code>##    user  system elapsed 
+##   47.75    0.08   48.02</code></pre>
+<p>Now with two cores.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">system.time</span>(ergm_model &lt;-<span class="st"> </span><span class="kw">suppressMessages</span>(</a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="kw">ergm</span>(molecule <span class="op">~</span><span class="st"> </span>edges <span class="op">+</span><span class="st"> </span><span class="kw">kstar</span>(<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>triangle <span class="op">+</span><span class="st"> </span><span class="kw">nodematch</span>(<span class="st">&quot;atomic_type&quot;</span>),</a>
+<a class="sourceLine" id="cb7-3" title="3">       <span class="dt">control =</span> <span class="kw">control.ergm</span>(<span class="dt">MCMC.samplesize =</span> <span class="dv">25000</span>, <span class="dt">parallel =</span> <span class="dv">2</span>)))</a>
+<a class="sourceLine" id="cb7-4" title="4">  )</a></code></pre></div>
+<pre><code>##    user  system elapsed 
+##    2.30    0.06   31.58</code></pre>
+<p>Finally, with four cores.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">system.time</span>(ergm_model &lt;-<span class="st"> </span><span class="kw">suppressMessages</span>(</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="kw">ergm</span>(molecule <span class="op">~</span><span class="st"> </span>edges <span class="op">+</span><span class="st"> </span><span class="kw">kstar</span>(<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>triangle <span class="op">+</span><span class="st"> </span><span class="kw">nodematch</span>(<span class="st">&quot;atomic_type&quot;</span>),</a>
+<a class="sourceLine" id="cb9-3" title="3">       <span class="dt">control =</span> <span class="kw">control.ergm</span>(<span class="dt">MCMC.samplesize =</span> <span class="dv">25000</span>, <span class="dt">parallel =</span> <span class="dv">4</span>)))</a>
+<a class="sourceLine" id="cb9-4" title="4">  )</a></code></pre></div>
+<pre><code>##    user  system elapsed 
+##    2.42    0.08   20.56</code></pre>
+<p>As you can see, there are diminishing returns to adding in more cores. That said, using four cores saves a good amount of absolute time, and these gains multiply if your project requires a series of ERGM models.</p>
+<p>However, too many cores often consumes more time due to overhead. I have found that it is best to use the number of physical cores your CPU has minus one. For example, all of my ERGM and RSiena code use three or four cores for modeling (depending on if I am multitasking on my desktop), as I currently operate on a heavily-overclocked (5.2 GHz) <a href="https://ark.intel.com/content/www/us/en/ark/products/97129/intel-core-i7-7700k-processor-8m-cache-up-to-4-50-ghz.html">Intel Core i7-7700K</a>, which is a four-core, eight-thread processor.</p>
+<p>Consequently, improving social network analysis performance (and R performance more generally) requires faster CPUs, even if that means fewer cores (sorry AMD fans; at the time of writing, Intel is still king here).</p>
 <p><br></p>
 </div>
 <div id="siena" class="section level2">
 <h2>SIENA</h2>
-<p>Coming soon!</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">RSiena<span class="op">::</span><span class="kw">siena07</span>()</a></code></pre></div>
+<p>RSiena is a very different beast that I cannot hope to explain succinctly. I highly recommend consulting the in-depth manual frequently.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">library</span>(RSiena)</a>
+<a class="sourceLine" id="cb11-2" title="2"></a>
+<a class="sourceLine" id="cb11-3" title="3">siena_results =<span class="st"> </span><span class="kw">siena07</span>(</a>
+<a class="sourceLine" id="cb11-4" title="4">    siena_algorithm,            <span class="co"># Algorithm object created via sienaAlgorithmCreate().</span></a>
+<a class="sourceLine" id="cb11-5" title="5">    <span class="dt">data       =</span> siena_data,    <span class="co"># Data object created via sienaDependent() and sienaDataCreate().</span></a>
+<a class="sourceLine" id="cb11-6" title="6">    <span class="dt">effects    =</span> siena_effects, <span class="co"># Effects object created via getEffects() and includeEffects().</span></a>
+<a class="sourceLine" id="cb11-7" title="7">    <span class="dt">batch      =</span> T, <span class="co"># Disable the graphical user interface.</span></a>
+<a class="sourceLine" id="cb11-8" title="8">    <span class="dt">returnDeps =</span> T, <span class="co"># Return simulated dependent variables (networks, behavior).</span></a>
+<a class="sourceLine" id="cb11-9" title="9">    <span class="dt">useCluster =</span> T, <span class="co"># Enable use of cluster.</span></a>
+<a class="sourceLine" id="cb11-10" title="10">    <span class="dt">nbrNodes   =</span> <span class="dv">4</span>  <span class="co"># Number of processes to use; should match the number of physical cores you have.</span></a>
+<a class="sourceLine" id="cb11-11" title="11">)</a>
+<a class="sourceLine" id="cb11-12" title="12"></a>
+<a class="sourceLine" id="cb11-13" title="13"><span class="co"># Write the results out to an HTML file.</span></a>
+<a class="sourceLine" id="cb11-14" title="14"><span class="kw">siena.table</span>(siena_results, <span class="dt">type =</span> <span class="st">&quot;html&quot;</span>, <span class="dt">sig =</span> T, <span class="dt">tstatPrint =</span> T, <span class="dt">d =</span> <span class="dv">3</span>, <span class="dt">file =</span> <span class="st">&quot;your_filename_here.htm&quot;</span>)</a></code></pre></div>
+<p>Though RSiena does not return simulated dependent variables by default, you need to set that parameter to true if you want to determine goodness of fit or include diagnostic plots in your research paper. Be advised that this consumes a significant amount of RAM, especially if you increase the number Phase 3 iterations via the <code>n3</code> parameter of the <code>sienaAlgorithmCreate()</code> command. Note that you are supposed to do this to achieve stable estimation of standard errors; again, be sure to refer to the documentation.</p>
 </div>
 
 
