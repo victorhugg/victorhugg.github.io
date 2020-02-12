@@ -23,6 +23,100 @@
 <link href="favicon.png" rel="icon" type="image/x-icon">
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; } /* Error */
+code span.ex { color: #0099ff; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -265,7 +359,13 @@ $(document).ready(function () {
   <a href="r_basics.html">R Basics</a>
 </li>
 <li>
-  <a href="sna.html">Using R for Social Network Analysis</a>
+  <a href="r_viz.html">R for Data Visualization</a>
+</li>
+<li>
+  <a href="r_sna.html">R for Social Network Analysis</a>
+</li>
+<li>
+  <a href="r_ml.html">R for Machine Learning</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -283,37 +383,297 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#install_favorite_packages.r">install_favorite_packages.R</a></li>
+<li><a href="#quietly-load-packages">Quietly Load Packages</a></li>
+<li><a href="#wrangling-and-modeling-anes-data">Wrangling and Modeling ANES Data</a></li>
+<li><a href="#estimating-multiple-panel-models">Estimating Multiple Panel Models</a></li>
+</ul>
+</div>
 
 <link rel="stylesheet" href="tomorrow-night-bright.css">
 <script src="highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <p><link rel="stylesheet" href="custom.css"></p>
-<p><i>Last Updated: January 28, 2020</i></p>
-<p><br></p>
-<pre class="r"><code>tibble::glimpse(victor_hugg)</code></pre>
-<pre><code>## List of 12
-##  $ age                  : num 29
-##  $ origin               : chr &quot;Des Moines, Iowa&quot;
-##  $ residence            : chr &quot;Chicago, Illinois&quot;
-##  $ fields               : chr [1:3] &quot;public administration&quot; &quot;political science&quot; &quot;philosophy&quot;
-##  $ ideal_job_start_date : Date[1:1], format: &quot;2020-06-08&quot;
-##  $ has_PhD              : logi TRUE
-##  $ degree_count         : num 4
-##  $ alma_maters          : chr [1:3] &quot;UIC&quot; &quot;UIUC&quot; &quot;Iowa State&quot;
-##  $ software_expert      : chr [1:5] &quot;R&quot; &quot;RStudio&quot; &quot;Stata&quot; &quot;Windows 10&quot; ...
-##  $ software_intermediate: chr [1:3] &quot;LaTeX&quot; &quot;Markdown&quot; &quot;HTML/CSS&quot;
-##  $ software_novice      : chr [1:2] &quot;Python&quot; &quot;SQL&quot;
-##  $ has_social_life      : logi FALSE</code></pre>
-<p><br></p>
-<div id="statistical-programming-in-r" class="section level2">
-<h2>Statistical Programming in R</h2>
-<p>Once the Graduate College has accepted the final version of my dissertation, this is where you will be able find a collection of R code and comments that will have been hastily thrown together in an effort to lure future employers into hiring me — or at least that’s the plan. The R cheat sheet that used to be here has been moved to its own page (see above).</p>
-<p>In the meantime, enjoy this placeholder cat.</p>
+<p><i>Site Last Updated: February 12, 2020</i></p>
+<p><img src="r_warlord.jpg" width="100%" /></p>
+<p>Potential employers should look at <a href="VictorHuggCV.pdf">my CV</a> and <a href="https://scholar.google.com/citations?user=C0mYOJMAAAAJ">Google Scholar profile</a>.</p>
+<p>New R users should check out the <a href="r_basics.html">R basics</a> and <a href="r_viz.html">visualization</a> pages.</p>
+<p>Researchers that use ERGM or RSiena models should be using multiple CPU cores; check out <a href="r_sna.html">my SNA page</a> for a walkthrough.</p>
+<p>Python doesn’t have a monopoly on machine learning; check out my <a href="r_ml.html">R for machine learning page</a>.</p>
+<p>Below you will find a few tips to improve code elegance (i.e., code that is succinct and efficient) and workflow suggestions.</p>
+<hr>
+<div id="install_favorite_packages.r" class="section level1">
+<h1>install_favorite_packages.R</h1>
+<p>I recommend writing and maintaining a script that keeps track of all the packages you regularly use. When re-imaging a workstation, or upgrading to the newest version of R, you can simply run it once (instead of installing packages on an ad-hoc basis). Here is an example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">install_packages =<span class="st"> </span><span class="cf">function</span>(pkg) {</a>
+<a class="sourceLine" id="cb1-2" title="2">    new_pkg &lt;-<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
+<a class="sourceLine" id="cb1-3" title="3">    <span class="cf">if</span> (<span class="kw">length</span>(new_pkg))</a>
+<a class="sourceLine" id="cb1-4" title="4">        <span class="kw">install.packages</span>(new_pkg, <span class="dt">dependencies =</span> T)</a>
+<a class="sourceLine" id="cb1-5" title="5">}</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">packages =<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="st">&quot;devtools&quot;</span>,  <span class="co"># R Development Tools</span></a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="st">&quot;tidyverse&quot;</span>, <span class="co"># dplyr, tidyr, readr, readxl, haven, lubridate, ggplot2, etc.</span></a>
+<a class="sourceLine" id="cb1-10" title="10">    <span class="st">&quot;janitor&quot;</span>,   <span class="co"># Clean Dirty Data</span></a>
+<a class="sourceLine" id="cb1-11" title="11">    <span class="st">&quot;plm&quot;</span>,       <span class="co"># Panel Linear Models</span></a>
+<a class="sourceLine" id="cb1-12" title="12">    <span class="st">&quot;statnet&quot;</span>,   <span class="co"># Network Analysis</span></a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="st">&quot;Cairo&quot;</span>      <span class="co"># High-Quality R Image Device</span></a>
+<a class="sourceLine" id="cb1-14" title="14">)</a>
+<a class="sourceLine" id="cb1-15" title="15"></a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="kw">install_packages</span>(packages)</a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="kw">rm</span>(install_packages, packages)</a></code></pre></div>
+<p>It’s also worth your time to look for useful RStudio add-ins every so often. There are two add-ins in particular that make my life substantially easier:</p>
+<ol style="list-style-type: decimal">
+<li>“AlignAssign” quickly aligns assignment operators, which when combined with RStudio’s “Reformat Code” function, makes writing pretty R code rather painless.</li>
+<li>“RStudio-Addin-Snippets” enables quick back-to-forward slash conversion (and vice-versa). This comes in handy when you are copying and pasting file paths from Windows (which use backslashes) into an R script (file paths in R must use forward slashes). Though you could escape every backslash in paths, that looks terrible and can make it more difficult to collaborate with colleagues programming on macOS or Linux (which both use forward slashes in paths).</li>
+</ol>
+<p>For ease of use, I assign a keyboard shortcut to both of these add-ins in RStudio (Tools &gt; Modify Keyboard Shortcuts).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;seasmith/AlignAssign&quot;</span>)       <span class="co"># Align Assignment Operators</span></a>
+<a class="sourceLine" id="cb2-2" title="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;sfr/RStudio-Addin-Snippets&quot;</span>) <span class="co"># Convert Slashes</span></a></code></pre></div>
 <p><br></p>
 </div>
-<div id="placeholder-kitten" class="section level2">
-<h2>Placeholder Kitten</h2>
-<p><img src="https://placekitten.com/1000/500" width="100%" /></p>
+<div id="quietly-load-packages" class="section level1">
+<h1>Quietly Load Packages</h1>
+<p>You can avoid using the <code>library()</code> command with the power of <code>lapply()</code> when more than a handful of packages need to be loaded. Combine <code>suppressMessages()</code> with <code>invisible()</code> to completely suppress output.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">packages =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, <span class="st">&quot;readxl&quot;</span>, <span class="st">&quot;statnet&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">invisible</span>(<span class="kw">suppressMessages</span>(<span class="kw">lapply</span>(packages, require, <span class="dt">character.only =</span> T)))</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">rm</span>(packages)</a></code></pre></div>
+<hr>
+</div>
+<div id="wrangling-and-modeling-anes-data" class="section level1">
+<h1>Wrangling and Modeling ANES Data</h1>
+<p><a href="https://doi.org/10.30636/jbpa.22.65">Hugg and LeRoux (2019)</a> leveraged personality trait data from the 2012 and 2016 ANES to predict likelihood of engagement with local government.</p>
+<p>ANES data can be downloaded in different formats. Here, I import a Stata file.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">ANES_<span class="dv">2012</span> =<span class="st"> </span>haven<span class="op">::</span><span class="kw">read_dta</span>(<span class="st">&quot;../American National Election Studies/2012 Time Series Study/ANES 2012.dta&quot;</span>)</a></code></pre></div>
+<p>It’s helpful to copy and paste variables names from the ANES code book into your script, along with a plus or minus sign to indicate directionality (many survey questions are reverse-coded).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># tipi_open     Openness          +</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co"># tipi_conv     Openness          -</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co"># tipi_dep      Conscientiousness +</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># tipi_disorg   Conscientiousness -</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co"># tipi_extra    Extraversion      +</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co"># tipi_resv     Extraversion      -</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co"># tipi_warm     Agreeableness     +</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co"># tipi_crit     Agreeableness     -</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co"># tipi_anx      Neuroticism       +</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co"># tipi_calm     Neuroticism       -</span></a></code></pre></div>
+<p>Next, I create a custom subset of the data; combining <code>mutate()</code>with <code>case_when()</code> allows you to iteratively add re-coded variables.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Dependent Variable</span></a>
+<a class="sourceLine" id="cb6-2" title="2">custom =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb6-3" title="3">    <span class="dt">InvolvedLocalMeeting =</span> ANES_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb6-4" title="4">        <span class="dt">InvolvedLocalMeeting =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb6-5" title="5">            involv_commmtg <span class="op">==</span><span class="st"> </span><span class="dv">-9</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb6-6" title="6">            involv_commmtg <span class="op">==</span><span class="st"> </span><span class="dv">-8</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb6-7" title="7">            involv_commmtg <span class="op">==</span><span class="st"> </span><span class="dv">-7</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb6-8" title="8">            involv_commmtg <span class="op">==</span><span class="st"> </span><span class="dv">-6</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb6-9" title="9">            involv_commmtg <span class="op">==</span><span class="st"> </span><span class="dv">1</span>  <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb6-10" title="10">            involv_commmtg <span class="op">==</span><span class="st"> </span><span class="dv">2</span>  <span class="op">~</span><span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb6-11" title="11">        )</a>
+<a class="sourceLine" id="cb6-12" title="12">    ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(InvolvedLocalMeeting)</a>
+<a class="sourceLine" id="cb6-13" title="13">)</a></code></pre></div>
+<p>Since political scientists who study voter psychology usually rescale trait values to range from zero and one, I create a function that can be used during the independent variable assembly process.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Personality Trait Rescale Function</span></a>
+<a class="sourceLine" id="cb7-2" title="2">rescale =<span class="st"> </span><span class="cf">function</span>(x, ...) {</a>
+<a class="sourceLine" id="cb7-3" title="3">    (x <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(x, ...)) <span class="op">/</span><span class="st"> </span>(<span class="kw">max</span>(x, ...) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(x, ...))</a>
+<a class="sourceLine" id="cb7-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># Openness</span></a>
+<a class="sourceLine" id="cb8-2" title="2">temp =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb8-3" title="3">    <span class="dt">first =</span> ANES_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb8-4" title="4">        <span class="dt">first =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb8-5" title="5">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">-9</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-6" title="6">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">-8</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-7" title="7">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">-7</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-8" title="8">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">-6</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-9" title="9">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">1</span>  <span class="op">~</span><span class="st"> </span><span class="dv">-3</span>,</a>
+<a class="sourceLine" id="cb8-10" title="10">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">2</span>  <span class="op">~</span><span class="st"> </span><span class="dv">-2</span>,</a>
+<a class="sourceLine" id="cb8-11" title="11">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">3</span>  <span class="op">~</span><span class="st"> </span><span class="dv">-1</span>,</a>
+<a class="sourceLine" id="cb8-12" title="12">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">4</span>  <span class="op">~</span><span class="st"> </span><span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-13" title="13">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">5</span>  <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb8-14" title="14">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">6</span>  <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb8-15" title="15">            tipi_open <span class="op">==</span><span class="st"> </span><span class="dv">7</span>  <span class="op">~</span><span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb8-16" title="16">        )</a>
+<a class="sourceLine" id="cb8-17" title="17">    ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(first),</a>
+<a class="sourceLine" id="cb8-18" title="18">    <span class="dt">second =</span> ANES_<span class="dv">2012</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb8-19" title="19">        <span class="dt">second =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb8-20" title="20">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">-9</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-21" title="21">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">-7</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-22" title="22">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">-6</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>,</a>
+<a class="sourceLine" id="cb8-23" title="23">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">1</span>  <span class="op">~</span><span class="st"> </span><span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb8-24" title="24">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">2</span>  <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb8-25" title="25">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">3</span>  <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb8-26" title="26">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">4</span>  <span class="op">~</span><span class="st"> </span><span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-27" title="27">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">5</span>  <span class="op">~</span><span class="st"> </span><span class="dv">-1</span>,</a>
+<a class="sourceLine" id="cb8-28" title="28">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">6</span>  <span class="op">~</span><span class="st"> </span><span class="dv">-2</span>,</a>
+<a class="sourceLine" id="cb8-29" title="29">            tipi_conv <span class="op">==</span><span class="st"> </span><span class="dv">7</span>  <span class="op">~</span><span class="st"> </span><span class="dv">-3</span></a>
+<a class="sourceLine" id="cb8-30" title="30">        )</a>
+<a class="sourceLine" id="cb8-31" title="31">    ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(second)</a>
+<a class="sourceLine" id="cb8-32" title="32">)</a>
+<a class="sourceLine" id="cb8-33" title="33">custom =<span class="st"> </span>custom <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">openness =</span> <span class="kw">rowMeans</span>(temp),</a>
+<a class="sourceLine" id="cb8-34" title="34">                           <span class="dt">openness_scaled =</span> <span class="kw">rescale</span>(openness, <span class="dt">na.rm =</span> T))</a>
+<a class="sourceLine" id="cb8-35" title="35"><span class="kw">rm</span>(temp)</a></code></pre></div>
+<p>I won’t walk through all of the variables, since they each use the same approach: (1) create temporary <code>tibble</code> object; (2) calculate row means; (3) glue resulting column to the custom subset; and (4) create a rescaled version of the new column to add as well.</p>
+<p>I finish by adding in the survey weights, strata, and primary sampling unit variables and exporting the finished product to a Stata file.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">custom<span class="op">$</span>weights =<span class="st"> </span>ANES_<span class="dv">2012</span><span class="op">$</span>weight_full</a>
+<a class="sourceLine" id="cb9-2" title="2">custom<span class="op">$</span>strata  =<span class="st"> </span>ANES_<span class="dv">2012</span><span class="op">$</span>strata_full</a>
+<a class="sourceLine" id="cb9-3" title="3">custom<span class="op">$</span>psu     =<span class="st"> </span>ANES_<span class="dv">2012</span><span class="op">$</span>psu_full</a>
+<a class="sourceLine" id="cb9-4" title="4"></a>
+<a class="sourceLine" id="cb9-5" title="5">haven<span class="op">::</span><span class="kw">write_dta</span>(custom, <span class="st">&quot;../Publications/Hugg and LeRoux (JBPA)/ANES_2012.dta&quot;</span>)</a></code></pre></div>
+<p>After repeating this process for 2016 and adding a year dummy indicator, the data was merged into a single analysis-ready Stata file.</p>
+<p>Since my co-author worked in Stata, modeling were performed via a .do file. Next, I load in the combined 2012 and 2016 ANES data with the <code>use</code> command, declare survey design, and run a model. For the log-likelihood and pseudo-R<sup>2</sup>, simply remove the “svy:” prefix from the <code>logistic</code> command below.</p>
+<pre class="stata"><code>svyset [pweight = weights], strata(strata) psu(psu) vce(linearized)
+svy: logistic ContactedElectedLocal openness_scaled-neuroticism_scaled white female age</code></pre>
+<pre><code>      pweight: weights
+          VCE: linearized
+  Single unit: missing
+     Strata 1: strata
+         SU 1: psu
+        FPC 1: &lt;zero&gt;
+
+(running logistic on estimation sample)
+
+Survey: Logistic regression
+
+Number of strata   =       132                  Number of obs     =      4,065
+Number of PSUs     =       265                  Population size   =    3,478.6
+                                                Design df         =        133
+                                                F(   8,    126)   =       6.08
+                                                Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+             |             Linearized
+ContactedE~l | Odds Ratio   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+openness_s~d |   3.282221   1.256061     3.11   0.002     1.539691    6.996841
+conscienti~d |    .525906   .1801504    -1.88   0.063      .267085    1.035539
+extraversi~d |   1.525645   .4253075     1.52   0.132     .8789888    2.648036
+agreeablen~d |   1.224736   .5057727     0.49   0.624      .541126    2.771957
+neuroticis~d |   .3909243   .1149618    -3.19   0.002     .2185121    .6993747
+       white |   1.492515   .2255505     2.65   0.009     1.106887    2.012493
+      female |   .9148055   .1262171    -0.65   0.520     .6963199    1.201846
+         age |   1.014194   .0032437     4.41   0.000     1.007799    1.020631
+       _cons |   .0365982   .0185503    -6.53   0.000     .0134294    .0997387
+------------------------------------------------------------------------------</code></pre>
+<p>In the published version of the journal article, this is the first model shown in Table 6:</p>
+<p><img src="screenshot_jbpa.png" /><!-- --></p>
+<hr>
+</div>
+<div id="estimating-multiple-panel-models" class="section level1">
+<h1>Estimating Multiple Panel Models</h1>
+<p>For my dissertation, I needed to be able to make adjustments to dozens of models at once. The code below outlines the approach I developed.</p>
+<p>After loading in my data (wrangled and formatted as <code>plm::pdata.frame</code> objects), I create vectors that hold my variables as well as parameters to be used later (when creating tables via the <code>stargazer</code> package):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">non_ego_independent_variables =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;active_agreement_count&quot;</span>, <span class="st">&quot;degree&quot;</span>, <span class="st">&quot;tie_strength&quot;</span>, <span class="st">&quot;avg_tie_duration&quot;</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2">ego_independent_variables     =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ego_transitivity&quot;</span>)</a>
+<a class="sourceLine" id="cb12-3" title="3">controls =<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb12-4" title="4">    <span class="st">&quot;enrollment_logged&quot;</span>,</a>
+<a class="sourceLine" id="cb12-5" title="5">    <span class="st">&quot;female&quot;</span>,</a>
+<a class="sourceLine" id="cb12-6" title="6">    <span class="st">&quot;non_white&quot;</span>,</a>
+<a class="sourceLine" id="cb12-7" title="7">    <span class="st">&quot;free_reduced_lunch&quot;</span>,</a>
+<a class="sourceLine" id="cb12-8" title="8">    <span class="st">&quot;spending_per_student_logged&quot;</span>,</a>
+<a class="sourceLine" id="cb12-9" title="9">    <span class="st">&quot;teachers_ratio&quot;</span>,</a>
+<a class="sourceLine" id="cb12-10" title="10">    <span class="st">&quot;teacher_salary_logged&quot;</span>,</a>
+<a class="sourceLine" id="cb12-11" title="11">    <span class="st">&quot;teacher_experience&quot;</span>,</a>
+<a class="sourceLine" id="cb12-12" title="12">    <span class="st">&quot;teachers_advanced&quot;</span></a>
+<a class="sourceLine" id="cb12-13" title="13">)</a>
+<a class="sourceLine" id="cb12-14" title="14">covariate_labels =<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb12-15" title="15">    <span class="st">&quot;Active Agreement Count&quot;</span>,</a>
+<a class="sourceLine" id="cb12-16" title="16">    <span class="st">&quot;Degree Centrality&quot;</span>,</a>
+<a class="sourceLine" id="cb12-17" title="17">    <span class="st">&quot;Tie Strength&quot;</span>,</a>
+<a class="sourceLine" id="cb12-18" title="18">    <span class="st">&quot;Average Duration of Active Ties&quot;</span>,</a>
+<a class="sourceLine" id="cb12-19" title="19">    <span class="st">&quot;Ego Network Transitivity&quot;</span>,</a>
+<a class="sourceLine" id="cb12-20" title="20">    <span class="st">&quot;Enrollment (Logged)&quot;</span>,</a>
+<a class="sourceLine" id="cb12-21" title="21">    <span class="st">&quot;Female&quot;</span>,</a>
+<a class="sourceLine" id="cb12-22" title="22">    <span class="st">&quot;Non-White&quot;</span>,</a>
+<a class="sourceLine" id="cb12-23" title="23">    <span class="st">&quot;Free- or Reduced-Price Lunch&quot;</span>,</a>
+<a class="sourceLine" id="cb12-24" title="24">    <span class="st">&quot;Spending per Student (Logged)&quot;</span>,</a>
+<a class="sourceLine" id="cb12-25" title="25">    <span class="st">&quot;Student-to-Teacher Ratio&quot;</span>,</a>
+<a class="sourceLine" id="cb12-26" title="26">    <span class="st">&quot;Teacher Salary (Logged)&quot;</span>,</a>
+<a class="sourceLine" id="cb12-27" title="27">    <span class="st">&quot;Teacher Experience&quot;</span>,</a>
+<a class="sourceLine" id="cb12-28" title="28">    <span class="st">&quot;Advanced Teachers Ratio&quot;</span></a>
+<a class="sourceLine" id="cb12-29" title="29">)</a>
+<a class="sourceLine" id="cb12-30" title="30">cutoffs =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span>)</a></code></pre></div>
+<p>Adding or removing independent and control variables from my models, their labels for the results table, and statistical significance cut-offs can now all be changed in one place.</p>
+<p>Next, I write a function to estimate three models (object names start at Model 3 because the first two specifications were dropped from the final version of my dissertation). Notice how Model 3 only includes the independent variables, Model 4 only includes the controls, and Model 5 includes everything.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">create_model_set =<span class="st"> </span><span class="cf">function</span>(data_object, dependent_variable, <span class="dt">greater_than_year =</span> <span class="dv">1989</span>) {</a>
+<a class="sourceLine" id="cb13-2" title="2">    model_<span class="dv">3</span> &lt;&lt;-<span class="st"> </span><span class="kw">plm</span>(</a>
+<a class="sourceLine" id="cb13-3" title="3">        <span class="kw">as.formula</span>(<span class="kw">paste</span>(</a>
+<a class="sourceLine" id="cb13-4" title="4">            <span class="kw">c</span>(dependent_variable,</a>
+<a class="sourceLine" id="cb13-5" title="5">              <span class="kw">paste</span>(<span class="kw">c</span>(non_ego_independent_variables, ego_independent_variables), <span class="dt">collapse =</span> <span class="st">&quot; + &quot;</span>)),</a>
+<a class="sourceLine" id="cb13-6" title="6">            <span class="dt">collapse =</span> <span class="st">&quot; ~ &quot;</span></a>
+<a class="sourceLine" id="cb13-7" title="7">        )),</a>
+<a class="sourceLine" id="cb13-8" title="8">        <span class="dt">data =</span> data_object <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span>greater_than_year), <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span></a>
+<a class="sourceLine" id="cb13-9" title="9">    )</a>
+<a class="sourceLine" id="cb13-10" title="10">    model_<span class="dv">3</span>_adj &lt;&lt;-<span class="st"> </span><span class="kw">coeftest</span>(model_<span class="dv">3</span>, <span class="kw">vcovDC</span>(model_<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb13-11" title="11"></a>
+<a class="sourceLine" id="cb13-12" title="12">    model_<span class="dv">4</span> &lt;&lt;-<span class="st"> </span><span class="kw">plm</span>(</a>
+<a class="sourceLine" id="cb13-13" title="13">        <span class="kw">as.formula</span>(<span class="kw">paste</span>(</a>
+<a class="sourceLine" id="cb13-14" title="14">            <span class="kw">c</span>(dependent_variable, <span class="kw">paste</span>(<span class="kw">c</span>(controls), <span class="dt">collapse =</span> <span class="st">&quot; + &quot;</span>)),</a>
+<a class="sourceLine" id="cb13-15" title="15">            <span class="dt">collapse =</span> <span class="st">&quot; ~ &quot;</span></a>
+<a class="sourceLine" id="cb13-16" title="16">        )),</a>
+<a class="sourceLine" id="cb13-17" title="17">        <span class="dt">data =</span> data_object <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span>greater_than_year), <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span></a>
+<a class="sourceLine" id="cb13-18" title="18">    )</a>
+<a class="sourceLine" id="cb13-19" title="19">    model_<span class="dv">4</span>_adj &lt;&lt;-<span class="st"> </span><span class="kw">coeftest</span>(model_<span class="dv">4</span>, <span class="kw">vcovDC</span>(model_<span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb13-20" title="20"></a>
+<a class="sourceLine" id="cb13-21" title="21">    model_<span class="dv">5</span> &lt;&lt;-<span class="st"> </span><span class="kw">plm</span>(</a>
+<a class="sourceLine" id="cb13-22" title="22">        <span class="kw">as.formula</span>(<span class="kw">paste</span>(</a>
+<a class="sourceLine" id="cb13-23" title="23">            <span class="kw">c</span>(dependent_variable,</a>
+<a class="sourceLine" id="cb13-24" title="24">              <span class="kw">paste</span>(<span class="kw">c</span>(non_ego_independent_variables, ego_independent_variables, controls), <span class="dt">collapse =</span> <span class="st">&quot; + &quot;</span>)),</a>
+<a class="sourceLine" id="cb13-25" title="25">            <span class="dt">collapse =</span> <span class="st">&quot; ~ &quot;</span></a>
+<a class="sourceLine" id="cb13-26" title="26">        )),</a>
+<a class="sourceLine" id="cb13-27" title="27">        <span class="dt">data =</span> data_object <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span>greater_than_year), <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>, <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span></a>
+<a class="sourceLine" id="cb13-28" title="28">    )</a>
+<a class="sourceLine" id="cb13-29" title="29">    model_<span class="dv">5</span>_adj &lt;&lt;-<span class="st"> </span><span class="kw">coeftest</span>(model_<span class="dv">5</span>, <span class="kw">vcovDC</span>(model_<span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb13-30" title="30">}</a></code></pre></div>
+<p>I place the resulting models in the global environment so I can run the <code>summary()</code> command on them to obtain certain attributes that cannot be easily extracted.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">create_model_set</span>(selected_academic_panel, <span class="st">&quot;lead(ayp_math_highschool)&quot;</span>, <span class="dv">2005</span>)</a>
+<a class="sourceLine" id="cb14-2" title="2"></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="kw">summary</span>(model_<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="kw">summary</span>(model_<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="kw">summary</span>(model_<span class="dv">5</span>)</a></code></pre></div>
+<p>Finally, <code>stargazer()</code> allows me to write a heavily-customized LaTeX table to a .tex file that my dissertation can use as an input source. I have to manually add rows that contain the number of observations and the R<sup>2</sup> since I am providing <code>stargazer()</code> with models that have had their standard errors adjusted by <code>lmtest::coeftest()</code> and <code>plm::vcovDC()</code> (a wrapper for double-clustering robust covariance matrix estimators).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">stargazer<span class="op">::</span><span class="kw">stargazer</span>(</a>
+<a class="sourceLine" id="cb15-2" title="2">    model_<span class="dv">3</span>_adj,</a>
+<a class="sourceLine" id="cb15-3" title="3">    model_<span class="dv">4</span>_adj,</a>
+<a class="sourceLine" id="cb15-4" title="4">    model_<span class="dv">5</span>_adj,</a>
+<a class="sourceLine" id="cb15-5" title="5">    <span class="dt">type  =</span> <span class="st">&quot;latex&quot;</span>,</a>
+<a class="sourceLine" id="cb15-6" title="6">    <span class="dt">title =</span> <span class="st">&quot;Panel Models, High School Math Proficiency&quot;</span>,</a>
+<a class="sourceLine" id="cb15-7" title="7">    <span class="dt">header =</span> F,</a>
+<a class="sourceLine" id="cb15-8" title="8">    <span class="dt">out =</span> <span class="st">&quot;3.tex&quot;</span>,</a>
+<a class="sourceLine" id="cb15-9" title="9">    <span class="dt">covariate.labels =</span> covariate_labels,</a>
+<a class="sourceLine" id="cb15-10" title="10">    <span class="dt">font.size =</span> <span class="st">&quot;footnotesize&quot;</span>,</a>
+<a class="sourceLine" id="cb15-11" title="11">    <span class="dt">model.numbers =</span> F,</a>
+<a class="sourceLine" id="cb15-12" title="12">    <span class="dt">add.lines =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb15-13" title="13">        <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb15-14" title="14">            <span class="st">&quot;District and Year Fixed Effects&quot;</span>,</a>
+<a class="sourceLine" id="cb15-15" title="15">            <span class="st">&quot;</span><span class="ch">\\</span><span class="st">checkmark&quot;</span>,</a>
+<a class="sourceLine" id="cb15-16" title="16">            <span class="st">&quot;</span><span class="ch">\\</span><span class="st">checkmark&quot;</span>,</a>
+<a class="sourceLine" id="cb15-17" title="17">            <span class="st">&quot;</span><span class="ch">\\</span><span class="st">checkmark&quot;</span></a>
+<a class="sourceLine" id="cb15-18" title="18">        ),</a>
+<a class="sourceLine" id="cb15-19" title="19">        <span class="kw">c</span>(<span class="st">&quot;School Districts&quot;</span>, <span class="st">&quot;175&quot;</span>, <span class="st">&quot;333&quot;</span>, <span class="st">&quot;175&quot;</span>),</a>
+<a class="sourceLine" id="cb15-20" title="20">        <span class="kw">c</span>(<span class="st">&quot;Years&quot;</span>, <span class="st">&quot;12&quot;</span>, <span class="st">&quot;12&quot;</span>, <span class="st">&quot;12&quot;</span>),</a>
+<a class="sourceLine" id="cb15-21" title="21">        <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb15-22" title="22">            <span class="st">&quot;Observations&quot;</span>,</a>
+<a class="sourceLine" id="cb15-23" title="23">            <span class="kw">nobs</span>(model_<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb15-24" title="24">            <span class="kw">nobs</span>(model_<span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb15-25" title="25">            <span class="kw">nobs</span>(model_<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb15-26" title="26">        ),</a>
+<a class="sourceLine" id="cb15-27" title="27">        <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb15-28" title="28">            <span class="st">&quot;Within-District R</span><span class="ch">\\</span><span class="st">textsuperscript{2}&quot;</span>,</a>
+<a class="sourceLine" id="cb15-29" title="29">            <span class="kw">r.squared</span>(model_<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb15-30" title="30">            <span class="kw">r.squared</span>(model_<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb15-31" title="31">            <span class="kw">r.squared</span>(model_<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb15-32" title="32">        )</a>
+<a class="sourceLine" id="cb15-33" title="33">    ),</a>
+<a class="sourceLine" id="cb15-34" title="34">    <span class="dt">dep.var.caption =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb15-35" title="35">    <span class="dt">dep.var.labels.include =</span> F,</a>
+<a class="sourceLine" id="cb15-36" title="36">    <span class="dt">digits =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb15-37" title="37">    <span class="dt">align =</span> T,</a>
+<a class="sourceLine" id="cb15-38" title="38">    <span class="dt">star.cutoffs =</span> cutoffs,</a>
+<a class="sourceLine" id="cb15-39" title="39">    <span class="dt">notes =</span> <span class="st">&quot;Double clustered-robust standard errors in parentheses.&quot;</span></a>
+<a class="sourceLine" id="cb15-40" title="40">)</a></code></pre></div>
+<p>Finally, when my dissertation is compiled, a fancy results table is produced:</p>
+<p><img src="screenshot_models.png" /><!-- --></p>
+<hr>
 </div>
 
 

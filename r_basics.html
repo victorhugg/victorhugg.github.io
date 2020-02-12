@@ -23,6 +23,100 @@
 <link href="favicon.png" rel="icon" type="image/x-icon">
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; } /* Error */
+code span.ex { color: #0099ff; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -265,7 +359,13 @@ $(document).ready(function () {
   <a href="r_basics.html">R Basics</a>
 </li>
 <li>
-  <a href="sna.html">Using R for Social Network Analysis</a>
+  <a href="r_viz.html">R for Data Visualization</a>
+</li>
+<li>
+  <a href="r_sna.html">R for Social Network Analysis</a>
+</li>
+<li>
+  <a href="r_ml.html">R for Machine Learning</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -294,7 +394,6 @@ $(document).ready(function () {
 <li><a href="#using-commands-from-non-loaded-packages">Using Commands from Non-Loaded Packages</a></li>
 <li><a href="#reading-in-data">Reading in Data</a></li>
 <li><a href="#data-wrangling">Data Wrangling</a></li>
-<li><a href="#data-visualization">Data Visualization</a></li>
 <li><a href="#correlation">Correlation</a></li>
 <li><a href="#linear-regression">Linear Regression</a></li>
 <li><a href="#formal-checks-of-ols-model-assumptions">Formal Checks of OLS Model Assumptions</a></li>
@@ -317,9 +416,9 @@ $(document).ready(function () {
 <script src="highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <p><link rel="stylesheet" href="custom.css"></p>
-<p><br></p>
-<div id="installing-r-and-rstudio" class="section level2">
-<h2>Installing R and RStudio</h2>
+<hr>
+<div id="installing-r-and-rstudio" class="section level1">
+<h1>Installing R and RStudio</h1>
 <ol style="list-style-type: decimal">
 <li>Download and install R: <a href="https://cran.r-project.org/">https://cran.r-project.org/</a>
 <ul>
@@ -340,15 +439,15 @@ $(document).ready(function () {
 <p><img src="rstudio.png" width="100%" /></p>
 <p><br></p>
 </div>
-<div id="updating-r" class="section level2">
-<h2>Updating R</h2>
+<div id="updating-r" class="section level1">
+<h1>Updating R</h1>
 <p>Update R by installing new versions using the process described above or by using the handy <code>installr</code> package.</p>
-<pre class="r"><code>installr::updateR()</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">installr<span class="op">::</span><span class="kw">updateR</span>()</a></code></pre></div>
 <p><br></p>
 </div>
-<div id="set-working-directory" class="section level2">
-<h2>Set Working Directory</h2>
-<pre class="r"><code>setwd(&quot;C:/Research/R&quot;)</code></pre>
+<div id="set-working-directory" class="section level1">
+<h1>Set Working Directory</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">setwd</span>(<span class="st">&quot;C:/Research/R&quot;</span>)</a></code></pre></div>
 <ul>
 <li>RStudio Alternative: “Files” Pane &gt; “More” &gt; “Set As Working Directory”</li>
 <li>Ensure that file paths use forward slashes.
@@ -358,26 +457,26 @@ $(document).ready(function () {
 </ul>
 <p><br></p>
 </div>
-<div id="get-working-directory" class="section level2">
-<h2>Get Working Directory</h2>
-<pre class="r"><code>getwd()</code></pre>
+<div id="get-working-directory" class="section level1">
+<h1>Get Working Directory</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">getwd</span>()</a></code></pre></div>
 <ul>
 <li>RStudio Alternative: “Files” Pane &gt; “More” &gt; “Go To Working Directory”</li>
 </ul>
 <p><br></p>
 </div>
-<div id="installing-packages" class="section level2">
-<h2>Installing Packages</h2>
-<pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
+<div id="installing-packages" class="section level1">
+<h1>Installing Packages</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
 <ul>
 <li>RStudio Alternative: “Packages” Pane &gt; “Install”</li>
 <li>Explore the <a href="https://cran.r-project.org/web/views/">CRAN Task Views</a> to discover new packages.</li>
 </ul>
 <p><br></p>
 </div>
-<div id="loading-packages" class="section level2">
-<h2>Loading Packages</h2>
-<pre class="r"><code>library(parallel)</code></pre>
+<div id="loading-packages" class="section level1">
+<h1>Loading Packages</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">library</span>(parallel)</a></code></pre></div>
 <ul>
 <li>RStudio Alternative: “Packages” Pane &gt; Check Off Desired Packages
 <ul>
@@ -388,51 +487,46 @@ $(document).ready(function () {
 </ul>
 <p><br></p>
 </div>
-<div id="using-commands-from-non-loaded-packages" class="section level2">
-<h2>Using Commands from Non-Loaded Packages</h2>
+<div id="using-commands-from-non-loaded-packages" class="section level1">
+<h1>Using Commands from Non-Loaded Packages</h1>
 <p>If you only need a single command from a given package, use a double colon to call it; in some cases, this can prevent conflicts in the command namespace.</p>
-<pre class="r"><code>df_stata = haven::read_dta(&quot;Stata File.dta&quot;)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">df_stata =<span class="st"> </span>haven<span class="op">::</span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</a></code></pre></div>
 <p><br></p>
 </div>
-<div id="reading-in-data" class="section level2">
-<h2>Reading in Data</h2>
+<div id="reading-in-data" class="section level1">
+<h1>Reading in Data</h1>
 <p>R can read virtually any tabular data file (and is rapidly improving its <a href="https://cran.r-project.org/web/views/Databases.html">database capabilities</a>).</p>
-<pre class="r"><code>library(readr)
-df_csv   = read_csv(&quot;Comma Separated Values.csv&quot;)
-
-library(haven)
-df_stata = read_dta(&quot;Stata File.dta&quot;)
-df_sas   = read_sas(&quot;SAS File.sas7bdat&quot;)
-df_spss  = read_spss(&quot;SPSS File.sav&quot;)
-
-library(readxl)
-df_excel = read_excel(&quot;Excel Spreadsheet.xlsx&quot;)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(readr)</a>
+<a class="sourceLine" id="cb7-2" title="2">df_csv   =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Comma Separated Values.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw">library</span>(haven)</a>
+<a class="sourceLine" id="cb7-5" title="5">df_stata =<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;Stata File.dta&quot;</span>)</a>
+<a class="sourceLine" id="cb7-6" title="6">df_sas   =<span class="st"> </span><span class="kw">read_sas</span>(<span class="st">&quot;SAS File.sas7bdat&quot;</span>)</a>
+<a class="sourceLine" id="cb7-7" title="7">df_spss  =<span class="st"> </span><span class="kw">read_spss</span>(<span class="st">&quot;SPSS File.sav&quot;</span>)</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="kw">library</span>(readxl)</a>
+<a class="sourceLine" id="cb7-10" title="10">df_excel =<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;Excel Spreadsheet.xlsx&quot;</span>)</a></code></pre></div>
 <ul>
 <li>RStudio Alternative: “File” Menu &gt; “Import Dataset”</li>
 </ul>
 <p><br></p>
 </div>
-<div id="data-wrangling" class="section level2">
-<h2>Data Wrangling</h2>
+<div id="data-wrangling" class="section level1">
+<h1>Data Wrangling</h1>
 <p>The package “dplyr,” included in the <a href="https://www.tidyverse.org/">tidyverse</a>, includes several verbs that ease data munging:</p>
-<pre class="r"><code>library(dplyr)
-df_example %&gt;% select()    # Subset columns.
-df_example %&gt;% filter()    # Subset rows.
-df_example %&gt;% arrange()   # Sort/order by columns.
-df_example %&gt;% mutate()    # Create new variables/columns.
-df_example %&gt;% group_by()  # Groups data by variable.
-df_example %&gt;% summarize() # Reduce multiple values to a single value.</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb8-2" title="2">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>()    <span class="co"># Subset columns.</span></a>
+<a class="sourceLine" id="cb8-3" title="3">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>()    <span class="co"># Subset rows.</span></a>
+<a class="sourceLine" id="cb8-4" title="4">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>()   <span class="co"># Sort/order by columns.</span></a>
+<a class="sourceLine" id="cb8-5" title="5">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>()    <span class="co"># Create new variables/columns.</span></a>
+<a class="sourceLine" id="cb8-6" title="6">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>()  <span class="co"># Groups data by variable.</span></a>
+<a class="sourceLine" id="cb8-7" title="7">df_example <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>() <span class="co"># Reduce multiple values to a single value.</span></a></code></pre></div>
 <p>The arduous process of data tidying falls outside the scope of a cheat sheet, but learning how to combine the above verbs with the powerful pipe operator will make your life significantly easier.</p>
 <p><br></p>
 </div>
-<div id="data-visualization" class="section level2">
-<h2>Data Visualization</h2>
-<p>Check out the <a href="https://www.r-graph-gallery.com/">R Graph Gallery</a> or my <a href="index.html">R code portfolio</a> for examples.</p>
-<p><br></p>
-</div>
-<div id="correlation" class="section level2">
-<h2>Correlation</h2>
-<pre class="r"><code>tibble::glimpse(attitude) # Glimpse at the data; often better than head() or str().</code></pre>
+<div id="correlation" class="section level1">
+<h1>Correlation</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">tibble<span class="op">::</span><span class="kw">glimpse</span>(attitude) <span class="co"># Glimpse at the data; often better than head() or str().</span></a></code></pre></div>
 <pre><code>## Observations: 30
 ## Variables: 7
 ## $ rating     &lt;dbl&gt; 43, 63, 71, 61, 81, 43, 58, 71, 72, 67, 64, 67, 69, 68, ...
@@ -442,7 +536,7 @@ df_example %&gt;% summarize() # Reduce multiple values to a single value.</code>
 ## $ raises     &lt;dbl&gt; 61, 63, 76, 54, 71, 54, 66, 70, 71, 62, 58, 59, 55, 59, ...
 ## $ critical   &lt;dbl&gt; 92, 73, 86, 84, 83, 49, 68, 66, 83, 80, 67, 74, 63, 77, ...
 ## $ advance    &lt;dbl&gt; 45, 47, 48, 35, 47, 34, 35, 41, 31, 41, 34, 41, 25, 35, ...</code></pre>
-<pre class="r"><code>cor.test(~ rating + complaints, data = attitude)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">cor.test</span>(<span class="op">~</span><span class="st"> </span>rating <span class="op">+</span><span class="st"> </span>complaints, <span class="dt">data =</span> attitude)</a></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -456,8 +550,8 @@ df_example %&gt;% summarize() # Reduce multiple values to a single value.</code>
 ## 0.8254176</code></pre>
 <p><br></p>
 <p>The <a href="https://github.com/easystats/easystats">easystats</a> project’s <code>correlation</code> package, while not on CRAN, is the best at examining multiple correlations at once.</p>
-<pre class="r"><code># devtools::install_github(&quot;easystats/correlation&quot;)
-correlation::correlation(attitude)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># devtools::install_github(&quot;easystats/correlation&quot;)</span></a>
+<a class="sourceLine" id="cb13-2" title="2">correlation<span class="op">::</span><span class="kw">correlation</span>(attitude)</a></code></pre></div>
 <pre><code>## # A tibble: 21 x 9
 ##    Parameter1 Parameter2     r     t    df           p  CI_low CI_high Method 
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
@@ -474,14 +568,14 @@ correlation::correlation(attitude)</code></pre>
 ## # ... with 11 more rows</code></pre>
 <p><br></p>
 </div>
-<div id="linear-regression" class="section level2">
-<h2>Linear Regression</h2>
-<pre class="r"><code>ols_model = lm(dv ~ iv1 + iv2 + iv3, data = df_goes_here)
-summary(ols_model)</code></pre>
+<div id="linear-regression" class="section level1">
+<h1>Linear Regression</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">ols_model =<span class="st"> </span><span class="kw">lm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="kw">summary</span>(ols_model)</a></code></pre></div>
 <p><br></p>
 <p>Use a period if you want every variable (except the dependent variable specified) to be used as a covariate.</p>
-<pre class="r"><code>ols_model = lm(rating ~ ., data = attitude)
-summary(ols_model)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">ols_model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">summary</span>(ols_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = rating ~ ., data = attitude)
@@ -507,11 +601,11 @@ summary(ols_model)</code></pre>
 ## F-statistic:  10.5 on 6 and 23 DF,  p-value: 1.24e-05</code></pre>
 <p><br></p>
 </div>
-<div id="formal-checks-of-ols-model-assumptions" class="section level2">
-<h2>Formal Checks of OLS Model Assumptions</h2>
+<div id="formal-checks-of-ols-model-assumptions" class="section level1">
+<h1>Formal Checks of OLS Model Assumptions</h1>
 <p>The <code>performance</code> package, also part of the <code>easystats</code> project, includes several easy commands to check OLS model assumptions.</p>
-<pre class="r"><code>library(performance)
-check_collinearity(ols_model)</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">library</span>(performance)</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw">check_collinearity</span>(ols_model)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   Parameter    VIF SE_factor
 ##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;
@@ -521,30 +615,30 @@ check_collinearity(ols_model)</code></pre>
 ## 4 raises      3.08      1.75
 ## 5 critical    1.23      1.11
 ## 6 advance     1.95      1.40</code></pre>
-<pre class="r"><code>check_normality(ols_model)</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">check_normality</span>(ols_model)</a></code></pre></div>
 <pre><code>## OK: Residuals appear as normally distributed (p = 0.383).</code></pre>
-<pre class="r"><code>check_heteroscedasticity(ols_model)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">check_heteroscedasticity</span>(ols_model)</a></code></pre></div>
 <pre><code>## OK: Error variance appears to be homoscedastic (p = 0.153).</code></pre>
 <p><br></p>
 </div>
-<div id="visual-checks-of-model-assumptions" class="section level2">
-<h2>Visual Checks of Model Assumptions</h2>
+<div id="visual-checks-of-model-assumptions" class="section level1">
+<h1>Visual Checks of Model Assumptions</h1>
 <p>The formal checks show that this model is fine, but visual checks help when learning OLS.</p>
-<pre class="r"><code>performance::check_model(ols_model, panel = F)</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">performance<span class="op">::</span><span class="kw">check_model</span>(ols_model, <span class="dt">panel =</span> F)</a></code></pre></div>
 <p><img src="r_basics_files/figure-html/unnamed-chunk-15-1.png" width="100%" /><img src="r_basics_files/figure-html/unnamed-chunk-15-2.png" width="100%" /><img src="r_basics_files/figure-html/unnamed-chunk-15-3.png" width="100%" /><img src="r_basics_files/figure-html/unnamed-chunk-15-4.png" width="100%" /><img src="r_basics_files/figure-html/unnamed-chunk-15-5.png" width="100%" /></p>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 30 rows containing missing values (geom_text).</code></pre>
 <p><img src="r_basics_files/figure-html/unnamed-chunk-15-6.png" width="100%" /></p>
 <p><br></p>
 </div>
-<div id="logistic-regression" class="section level2">
-<h2>Logistic Regression</h2>
-<pre class="r"><code>logit_model = glm(dv ~ iv1 + iv2 + iv3, family = binomial(link = &quot;logit&quot;), data = df_goes_here)
-summary(logit_model)</code></pre>
+<div id="logistic-regression" class="section level1">
+<h1>Logistic Regression</h1>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
 <p><br></p>
 <p>Using sample data from the <code>Zelig</code> package:</p>
-<pre class="r"><code>data(bivariate, package = &quot;Zelig&quot;)
-tibble::glimpse(bivariate)</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">data</span>(bivariate, <span class="dt">package =</span> <span class="st">&quot;Zelig&quot;</span>)</a>
+<a class="sourceLine" id="cb28-2" title="2">tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</a></code></pre></div>
 <pre><code>## Observations: 78
 ## Variables: 6
 ## $ x3 &lt;int&gt; 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
@@ -553,8 +647,8 @@ tibble::glimpse(bivariate)</code></pre>
 ## $ y2 &lt;int&gt; 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0...
 ## $ y1 &lt;int&gt; 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0...
 ## $ x4 &lt;int&gt; 4, 3, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 4, 3, 1, 2, 2, 1, 3, 2, 1...</code></pre>
-<pre class="r"><code>logit_model = glm(y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;), data = bivariate)
-summary(logit_model)</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)</a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = y1 ~ x1 + x2 + x3 + x4, family = binomial(link = &quot;logit&quot;), 
@@ -583,7 +677,7 @@ summary(logit_model)</code></pre>
 ## Number of Fisher Scoring iterations: 5</code></pre>
 <p><br></p>
 <p>The <code>mfx</code> package is useful if you want odds ratios or marginal effects:</p>
-<pre class="r"><code>mfx::logitor(y1 ~ x1 + x2 + x3 + x4, data = bivariate) # Odds Ratios</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">mfx<span class="op">::</span><span class="kw">logitor</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">data =</span> bivariate) <span class="co"># Odds Ratios</span></a></code></pre></div>
 <pre><code>## Call:
 ## mfx::logitor(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
 ## 
@@ -595,7 +689,7 @@ summary(logit_model)</code></pre>
 ## x4  14.59227  10.08200  3.8796 0.0001046 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>mfx::logitmfx(y1 ~ x1 + x2 + x3 + x4, data = bivariate) # Marginal Effects</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">mfx<span class="op">::</span><span class="kw">logitmfx</span>(y1 <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span>x4, <span class="dt">data =</span> bivariate) <span class="co"># Marginal Effects</span></a></code></pre></div>
 <pre><code>## Call:
 ## mfx::logitmfx(formula = y1 ~ x1 + x2 + x3 + x4, data = bivariate)
 ## 
@@ -613,15 +707,15 @@ summary(logit_model)</code></pre>
 ## [1] &quot;x3&quot;</code></pre>
 <p><br></p>
 </div>
-<div id="poissonnegative-binomial-regressions" class="section level2">
-<h2>Poisson/Negative Binomial Regressions</h2>
-<pre class="r"><code>poisson_model = glm(dv ~ iv1 + iv2 + iv3, family = poisson, data = df_goes_here)
-summary(poisson_model)</code></pre>
+<div id="poissonnegative-binomial-regressions" class="section level1">
+<h1>Poisson/Negative Binomial Regressions</h1>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">poisson_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
 <p><br></p>
 <p>Using sample data from the <code>AER</code> package:</p>
-<pre class="r"><code>data(RecreationDemand, package = &quot;AER&quot;)
-poisson_model = glm(trips ~ ., family = poisson, data = RecreationDemand)
-summary(poisson_model)</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">data</span>(RecreationDemand, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)</a>
+<a class="sourceLine" id="cb37-2" title="2">poisson_model =<span class="st"> </span><span class="kw">glm</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> poisson, <span class="dt">data =</span> RecreationDemand)</a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = trips ~ ., family = poisson, data = RecreationDemand)
@@ -651,7 +745,7 @@ summary(poisson_model)</code></pre>
 ## 
 ## Number of Fisher Scoring iterations: 7</code></pre>
 <p>When estimating Poisson models, check for overdispersion:</p>
-<pre class="r"><code>performance::check_overdispersion(poisson_model)</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">performance<span class="op">::</span><span class="kw">check_overdispersion</span>(poisson_model)</a></code></pre></div>
 <pre><code>## # Overdispersion test
 ## 
 ##        dispersion ratio =    6.298
@@ -659,8 +753,8 @@ summary(poisson_model)</code></pre>
 ##                 p-value =  &lt; 0.001</code></pre>
 <pre><code>## Overdispersion detected.</code></pre>
 <p>Given the overdispersion present, let’s select a different distributional family. A negative binomial regression would be more appropriate:</p>
-<pre class="r"><code>neg_binom_model = MASS::glm.nb(trips ~ ., data = RecreationDemand)
-summary(neg_binom_model)</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">neg_binom_model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> RecreationDemand)</a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">summary</span>(neg_binom_model)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## MASS::glm.nb(formula = trips ~ ., data = RecreationDemand, init.theta = 0.7292568331, 
@@ -698,12 +792,12 @@ summary(neg_binom_model)</code></pre>
 ##  2 x log-likelihood:  -1651.1150</code></pre>
 <p><br></p>
 </div>
-<div id="fixed-effects-panel-regressions" class="section level2">
-<h2>Fixed-Effects Panel Regressions</h2>
+<div id="fixed-effects-panel-regressions" class="section level1">
+<h1>Fixed-Effects Panel Regressions</h1>
 <p>An example of a panel regression with year and individual fixed effects:</p>
-<pre class="r"><code>data(Grunfeld, package = &quot;plm&quot;)
-plm_fixed_model = plm::plm(inv ~ value + capital, data = Grunfeld, effect = &quot;twoway&quot;, model = &quot;within&quot;)
-summary(plm_fixed_model)</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">data</span>(Grunfeld, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</a>
+<a class="sourceLine" id="cb44-2" title="2">plm_fixed_model =<span class="st"> </span>plm<span class="op">::</span><span class="kw">plm</span>(inv <span class="op">~</span><span class="st"> </span>value <span class="op">+</span><span class="st"> </span>capital, <span class="dt">data =</span> Grunfeld, <span class="dt">effect =</span> <span class="st">&quot;twoway&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</a>
+<a class="sourceLine" id="cb44-3" title="3"><span class="kw">summary</span>(plm_fixed_model)</a></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -730,12 +824,12 @@ summary(plm_fixed_model)</code></pre>
 ## F-statistic: 217.442 on 2 and 169 DF, p-value: &lt; 2.22e-16</code></pre>
 <p><br></p>
 </div>
-<div id="cox-proportional-hazards-model" class="section level2">
-<h2>Cox Proportional Hazards Model</h2>
-<pre class="r"><code>library(survival)
-data(lung)
-cox_model = coxph(Surv(time, status) ~ age + sex + ph.ecog + meal.cal + wt.loss, data = lung)
-summary(cox_model)</code></pre>
+<div id="cox-proportional-hazards-model" class="section level1">
+<h1>Cox Proportional Hazards Model</h1>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">library</span>(survival)</a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="kw">data</span>(lung)</a>
+<a class="sourceLine" id="cb46-3" title="3">cox_model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)</a>
+<a class="sourceLine" id="cb46-4" title="4"><span class="kw">summary</span>(cox_model)</a></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal + 
 ##     wt.loss, data = lung)
@@ -765,21 +859,21 @@ summary(cox_model)</code></pre>
 ## Score (logrank) test = 21.86  on 5 df,   p=6e-04</code></pre>
 <p><br></p>
 </div>
-<div id="multiple-imputation" class="section level2">
-<h2>Multiple Imputation</h2>
+<div id="multiple-imputation" class="section level1">
+<h1>Multiple Imputation</h1>
 <p>Refer to the Amelia documentation before using!</p>
 <p>I suggest that Amelia be instructed to: (1) use multiple CPU cores, (2) perform transformations on certain variables (e.g., log-linear, square root, logistic function for proportional data, and so forth), and (3) create multiple imputed datasets. You can then use the mean or median value across all imputations.</p>
-<pre class="r"><code>imputed_data = Amelia::amelia(panel_data, m = 100, cs = &quot;state&quot;, ts = &quot;year&quot;, parallel = &quot;snow&quot;, ncpus = 4) %&gt;%
-  purrr::reduce(imputed_data$imputations, dplyr::bind_rows) %&gt;%
-  group_by(state, year) %&gt;%
-  summarize_all(median, na.rm = T)</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">imputed_data =<span class="st"> </span>Amelia<span class="op">::</span><span class="kw">amelia</span>(panel_data, <span class="dt">m =</span> <span class="dv">100</span>, <span class="dt">cs =</span> <span class="st">&quot;state&quot;</span>, <span class="dt">ts =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">parallel =</span> <span class="st">&quot;snow&quot;</span>, <span class="dt">ncpus =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb48-2" title="2"><span class="st">  </span>purrr<span class="op">::</span><span class="kw">reduce</span>(imputed_data<span class="op">$</span>imputations, dplyr<span class="op">::</span>bind_rows) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb48-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(state, year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb48-4" title="4"><span class="st">  </span><span class="kw">summarize_all</span>(median, <span class="dt">na.rm =</span> T)</a></code></pre></div>
 <p><br></p>
 </div>
-<div id="robust-standard-errors" class="section level2">
-<h2>Robust Standard Errors</h2>
+<div id="robust-standard-errors" class="section level1">
+<h1>Robust Standard Errors</h1>
 <p>For linear estimators, using the <code>estimatr</code> package is rather straightforward:</p>
-<pre class="r"><code>ols_robust = estimatr::lm_robust(rating ~ ., data = attitude)
-summary(ols_robust)</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">ols_robust =<span class="st"> </span>estimatr<span class="op">::</span><span class="kw">lm_robust</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)</a>
+<a class="sourceLine" id="cb49-2" title="2"><span class="kw">summary</span>(ols_robust)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## estimatr::lm_robust(formula = rating ~ ., data = attitude)
@@ -801,12 +895,12 @@ summary(ols_robust)</code></pre>
 <p>For other models, you will likely have to use the <code>lmtest</code> and <code>sandwich</code> packages.</p>
 <p><br></p>
 </div>
-<div id="ordinal-logit-regression" class="section level2">
-<h2>Ordinal Logit Regression</h2>
+<div id="ordinal-logit-regression" class="section level1">
+<h1>Ordinal Logit Regression</h1>
 <p>An example from the <code>MASS</code> package’s documentation.</p>
-<pre class="r"><code>data(housing, package = &quot;MASS&quot;)
-ordered_logistic_model = MASS::polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing, Hess = T)
-summary(ordered_logistic_model)</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">data</span>(housing, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)</a>
+<a class="sourceLine" id="cb51-2" title="2">ordered_logistic_model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">polr</span>(Sat <span class="op">~</span><span class="st"> </span>Infl <span class="op">+</span><span class="st"> </span>Type <span class="op">+</span><span class="st"> </span>Cont, <span class="dt">weights =</span> Freq, <span class="dt">data =</span> housing, <span class="dt">Hess =</span> T)</a>
+<a class="sourceLine" id="cb51-3" title="3"><span class="kw">summary</span>(ordered_logistic_model)</a></code></pre></div>
 <pre><code>## Call:
 ## MASS::polr(formula = Sat ~ Infl + Type + Cont, data = housing, 
 ##     weights = Freq, Hess = T)
@@ -829,10 +923,10 @@ summary(ordered_logistic_model)</code></pre>
 ## AIC: 3495.149</code></pre>
 <p><br></p>
 </div>
-<div id="multinomial-logistic-regression" class="section level2">
-<h2>Multinomial Logistic Regression</h2>
-<pre class="r"><code>example(birthwt, package = &quot;MASS&quot;, echo = F)
-tibble::glimpse(bwt)</code></pre>
+<div id="multinomial-logistic-regression" class="section level1">
+<h1>Multinomial Logistic Regression</h1>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">example</span>(birthwt, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>, <span class="dt">echo =</span> F)</a>
+<a class="sourceLine" id="cb53-2" title="2">tibble<span class="op">::</span><span class="kw">glimpse</span>(bwt)</a></code></pre></div>
 <pre><code>## Observations: 189
 ## Variables: 9
 ## $ low   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
@@ -844,13 +938,13 @@ tibble::glimpse(bwt)</code></pre>
 ## $ ht    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE...
 ## $ ui    &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, F...
 ## $ ftv   &lt;fct&gt; 0, 2+, 1, 2+, 0, 0, 1, 1, 1, 0, 0, 1, 0, 2+, 0, 0, 0, 2+, 0, ...</code></pre>
-<pre class="r"><code>multinom_logit = nnet::multinom(low ~ ., data = bwt)</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">multinom_logit =<span class="st"> </span>nnet<span class="op">::</span><span class="kw">multinom</span>(low <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> bwt)</a></code></pre></div>
 <pre><code>## # weights:  12 (11 variable)
 ## initial  value 131.004817 
 ## iter  10 value 98.029803
 ## final  value 97.737759 
 ## converged</code></pre>
-<pre class="r"><code>summary(multinom_logit)</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw">summary</span>(multinom_logit)</a></code></pre></div>
 <pre><code>## Call:
 ## nnet::multinom(formula = low ~ ., data = bwt)
 ## 
@@ -872,14 +966,14 @@ tibble::glimpse(bwt)</code></pre>
 ## AIC: 217.4755</code></pre>
 <p><br></p>
 </div>
-<div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level2">
-<h2>Instrumental Variable Regression by Two-Stage Least Squares</h2>
-<pre class="r"><code>data(CigarettesSW, package = &quot;AER&quot;)
-CigarettesSW$rprice  = with(CigarettesSW, price/cpi)
-CigarettesSW$rincome = with(CigarettesSW, income/population/cpi)
-CigarettesSW$tdiff   = with(CigarettesSW, (taxs - tax)/cpi)
-
-tibble::glimpse(CigarettesSW)</code></pre>
+<div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level1">
+<h1>Instrumental Variable Regression by Two-Stage Least Squares</h1>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw">data</span>(CigarettesSW, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)</a>
+<a class="sourceLine" id="cb59-2" title="2">CigarettesSW<span class="op">$</span>rprice  =<span class="st"> </span><span class="kw">with</span>(CigarettesSW, price<span class="op">/</span>cpi)</a>
+<a class="sourceLine" id="cb59-3" title="3">CigarettesSW<span class="op">$</span>rincome =<span class="st"> </span><span class="kw">with</span>(CigarettesSW, income<span class="op">/</span>population<span class="op">/</span>cpi)</a>
+<a class="sourceLine" id="cb59-4" title="4">CigarettesSW<span class="op">$</span>tdiff   =<span class="st"> </span><span class="kw">with</span>(CigarettesSW, (taxs <span class="op">-</span><span class="st"> </span>tax)<span class="op">/</span>cpi)</a>
+<a class="sourceLine" id="cb59-5" title="5"></a>
+<a class="sourceLine" id="cb59-6" title="6">tibble<span class="op">::</span><span class="kw">glimpse</span>(CigarettesSW)</a></code></pre></div>
 <pre><code>## Observations: 96
 ## Variables: 12
 ## $ state      &lt;fct&gt; AL, AR, AZ, CA, CO, CT, DE, FL, GA, IA, ID, IL, IN, KS, ...
@@ -894,9 +988,9 @@ tibble::glimpse(CigarettesSW)</code></pre>
 ## $ rprice     &lt;dbl&gt; 94.96438, 94.30762, 100.90962, 100.22058, 87.60842, 118....
 ## $ rincome    &lt;dbl&gt; 10.763866, 10.468165, 12.830456, 15.713321, 14.326190, 1...
 ## $ tdiff      &lt;dbl&gt; 0.7884121, 0.0000000, 4.8052211, 5.6728627, 0.0000000, 8...</code></pre>
-<pre class="r"><code>iv_regression = AER::ivreg(log(packs) ~ log(rprice) + log(rincome) | log(rincome) + tdiff + I(tax/cpi),
-                           data = CigarettesSW, subset = year == &quot;1995&quot;)
-summary(iv_regression)</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1">iv_regression =<span class="st"> </span>AER<span class="op">::</span><span class="kw">ivreg</span>(<span class="kw">log</span>(packs) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(rprice) <span class="op">+</span><span class="st"> </span><span class="kw">log</span>(rincome) <span class="op">|</span><span class="st"> </span><span class="kw">log</span>(rincome) <span class="op">+</span><span class="st"> </span>tdiff <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(tax<span class="op">/</span>cpi),</a>
+<a class="sourceLine" id="cb61-2" title="2">                           <span class="dt">data =</span> CigarettesSW, <span class="dt">subset =</span> year <span class="op">==</span><span class="st"> &quot;1995&quot;</span>)</a>
+<a class="sourceLine" id="cb61-3" title="3"><span class="kw">summary</span>(iv_regression)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## AER::ivreg(formula = log(packs) ~ log(rprice) + log(rincome) | 
@@ -920,9 +1014,9 @@ summary(iv_regression)</code></pre>
 ## Wald test: 13.28 on 2 and 45 DF,  p-value: 2.931e-05</code></pre>
 <p><br></p>
 </div>
-<div id="multilevel-mixed-effects-models" class="section level2">
-<h2>Multilevel Mixed-Effects Models</h2>
-<pre class="r"><code>library(lme4)</code></pre>
+<div id="multilevel-mixed-effects-models" class="section level1">
+<h1>Multilevel Mixed-Effects Models</h1>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">library</span>(lme4)</a></code></pre></div>
 <pre><code>## Loading required package: Matrix</code></pre>
 <pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
 ##   method                          from
@@ -930,14 +1024,14 @@ summary(iv_regression)</code></pre>
 ##   influence.merMod                car 
 ##   dfbeta.influence.merMod         car 
 ##   dfbetas.influence.merMod        car</code></pre>
-<pre class="r"><code>tibble::glimpse(sleepstudy)</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1">tibble<span class="op">::</span><span class="kw">glimpse</span>(sleepstudy)</a></code></pre></div>
 <pre><code>## Observations: 180
 ## Variables: 3
 ## $ Reaction &lt;dbl&gt; 249.5600, 258.7047, 250.8006, 321.4398, 356.8519, 414.6901...
 ## $ Days     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9...
 ## $ Subject  &lt;fct&gt; 308, 308, 308, 308, 308, 308, 308, 308, 308, 308, 309, 309...</code></pre>
-<pre class="r"><code>mixed_effects_model = lmer(Reaction ~ Days + (Days | Subject), data = sleepstudy)
-summary(mixed_effects_model)</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1">mixed_effects_model =<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)</a>
+<a class="sourceLine" id="cb68-2" title="2"><span class="kw">summary</span>(mixed_effects_model)</a></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (Days | Subject)
 ##    Data: sleepstudy
@@ -965,11 +1059,12 @@ summary(mixed_effects_model)</code></pre>
 ## Days -0.138</code></pre>
 <p><br></p>
 </div>
-<div id="regression-table-output" class="section level2">
-<h2>Regression Table Output</h2>
-<pre class="r"><code>library(texreg)
-library(stargazer)
-library(xtable)</code></pre>
+<div id="regression-table-output" class="section level1">
+<h1>Regression Table Output</h1>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1"><span class="kw">library</span>(stargazer)</a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="kw">library</span>(texreg)</a>
+<a class="sourceLine" id="cb70-3" title="3"><span class="kw">library</span>(xtable)</a></code></pre></div>
+<hr>
 </div>
 
 
