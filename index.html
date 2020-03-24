@@ -396,7 +396,7 @@ $(document).ready(function () {
 <script src="highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <p><link rel="stylesheet" href="custom.css"></p>
-<p><i>Site Last Updated: March 1, 2020</i></p>
+<p><i>Site Last Updated: March 23, 2020</i></p>
 <p><img src="r_warlord.jpg" width="100%" /></p>
 <p>Potential employers should look at <a href="VictorHuggCV.pdf">my CV</a> and <a href="https://scholar.google.com/citations?user=C0mYOJMAAAAJ">Google Scholar profile</a>.</p>
 <p>New R users should check out the <a href="r_basics.html">R basics</a> and <a href="r_viz.html">visualization</a> pages.</p>
@@ -410,7 +410,7 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">install_packages =<span class="st"> </span><span class="cf">function</span>(pkg) {</a>
 <a class="sourceLine" id="cb1-2" title="2">    new_pkg &lt;-<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
 <a class="sourceLine" id="cb1-3" title="3">    <span class="cf">if</span> (<span class="kw">length</span>(new_pkg))</a>
-<a class="sourceLine" id="cb1-4" title="4">        <span class="kw">install.packages</span>(new_pkg, <span class="dt">dependencies =</span> T)</a>
+<a class="sourceLine" id="cb1-4" title="4">        <span class="kw">install.packages</span>(new_pkg, <span class="dt">dependencies =</span> T, <span class="dt">Ncpus =</span> <span class="dv">4</span>)</a>
 <a class="sourceLine" id="cb1-5" title="5">}</a>
 <a class="sourceLine" id="cb1-6" title="6"></a>
 <a class="sourceLine" id="cb1-7" title="7">packages =<span class="st"> </span><span class="kw">c</span>(</a>
