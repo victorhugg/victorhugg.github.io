@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R for Econometrics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="favicon.png" rel="icon" type="image/x-icon">
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span. { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; } /* Error */
+code span.ex { color: #0099ff; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Victor G. Hugg</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="VictorHuggCV.pdf">CV (PDF)</a>
+</li>
+<li>
+  <a href="r_basics.html">R Basics</a>
+</li>
+<li>
+  <a href="r_viz.html">R for Data Visualization</a>
+</li>
+<li>
+  <a href="r_econometrics.html">R for Econometrics</a>
+</li>
+<li>
+  <a href="r_ml.html">R for Machine Learning</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R for Econometrics</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#linear-regression">Linear Regression</a></li>
+<li><a href="#formal-checks-of-ols-model-assumptions">Formal Checks of OLS Model Assumptions</a></li>
+<li><a href="#visual-checks-of-model-assumptions">Visual Checks of Model Assumptions</a></li>
+<li><a href="#logistic-regression">Logistic Regression</a></li>
+<li><a href="#poissonnegative-binomial-regressions">Poisson/Negative Binomial Regressions</a></li>
+<li><a href="#fixed-effects-panel-regressions">Fixed-Effects Panel Regressions</a></li>
+<li><a href="#cox-proportional-hazards-model">Cox Proportional Hazards Model</a></li>
+<li><a href="#multiple-imputation">Multiple Imputation</a></li>
+<li><a href="#robust-standard-errors">Robust Standard Errors</a></li>
+<li><a href="#ordinal-logit-regression">Ordinal Logit Regression</a></li>
+<li><a href="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
+<li><a href="#instrumental-variable-regression-by-two-stage-least-squares">Instrumental Variable Regression by Two-Stage Least Squares</a></li>
+<li><a href="#multilevel-mixed-effects-models">Multilevel Mixed-Effects Models</a></li>
+<li><a href="#regression-table-output">Regression Table Output</a></li>
+</ul>
+</div>
+
+<link rel="stylesheet" href="tomorrow-night-bright.css">
+<script src="highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<p><link rel="stylesheet" href="custom.css"></p>
+<hr>
+<div id="linear-regression" class="section level1">
+<h1>Linear Regression</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">ols_model =<span class="st"> </span><span class="kw">lm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">summary</span>(ols_model)</a></code></pre></div>
+<p><br></p>
+<p>Use a period if you want every variable (except the dependent variable specified) to be used as a covariate.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">ols_model =<span class="st"> </span><span class="kw">lm</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">summary</span>(ols_model)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = rating ~ ., data = attitude)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.9418  -4.3555   0.3158   5.5425  11.5990 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 10.78708   11.58926   0.931 0.361634    
+## complaints   0.61319    0.16098   3.809 0.000903 ***
+## privileges  -0.07305    0.13572  -0.538 0.595594    
+## learning     0.32033    0.16852   1.901 0.069925 .  
+## raises       0.08173    0.22148   0.369 0.715480    
+## critical     0.03838    0.14700   0.261 0.796334    
+## advance     -0.21706    0.17821  -1.218 0.235577    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 7.068 on 23 degrees of freedom
+## Multiple R-squared:  0.7326, Adjusted R-squared:  0.6628 
+## F-statistic:  10.5 on 6 and 23 DF,  p-value: 1.24e-05</code></pre>
+<p><br></p>
+</div>
+<div id="formal-checks-of-ols-model-assumptions" class="section level1">
+<h1>Formal Checks of OLS Model Assumptions</h1>
+<p>The <code>performance</code> package, also part of the <code>easystats</code> project, includes several easy commands to check OLS model assumptions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">library</span>(performance)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="kw">check_collinearity</span>(ols_model)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   Parameter    VIF SE_factor
+##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1 complaints  2.67      1.63
+## 2 privileges  1.60      1.27
+## 3 learning    2.27      1.51
+## 4 raises      3.08      1.75
+## 5 critical    1.23      1.11
+## 6 advance     1.95      1.40</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">check_normality</span>(ols_model)</a></code></pre></div>
+<pre><code>## OK: Residuals appear as normally distributed (p = 0.383).</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">check_heteroscedasticity</span>(ols_model)</a></code></pre></div>
+<pre><code>## OK: Error variance appears to be homoscedastic (p = 0.153).</code></pre>
+<p><br></p>
+</div>
+<div id="visual-checks-of-model-assumptions" class="section level1">
+<h1>Visual Checks of Model Assumptions</h1>
+<p>The formal checks show that this model is fine, but visual checks help when learning OLS.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">performance<span class="op">::</span><span class="kw">check_model</span>(ols_model, <span class="dt">panel =</span> F)</a></code></pre></div>
+<p><img src="r_econometrics_files/figure-html/unnamed-chunk-4-1.png" width="100%" /></p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="r_econometrics_files/figure-html/unnamed-chunk-4-2.png" width="100%" /><img src="r_econometrics_files/figure-html/unnamed-chunk-4-3.png" width="100%" /></p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="r_econometrics_files/figure-html/unnamed-chunk-4-4.png" width="100%" /></p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="r_econometrics_files/figure-html/unnamed-chunk-4-5.png" width="100%" /></p>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 30 rows containing missing values (geom_text).</code></pre>
+<p><img src="r_econometrics_files/figure-html/unnamed-chunk-4-6.png" width="100%" /></p>
+<p><br></p>
+</div>
+<div id="logistic-regression" class="section level1">
+<h1>Logistic Regression</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
+<p><br></p>
+<p>Using sample data from the <code>ISLR</code> package:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">bivariate =<span class="st"> </span>ISLR<span class="op">::</span>Default</a>
+<a class="sourceLine" id="cb17-2" title="2">tibble<span class="op">::</span><span class="kw">glimpse</span>(bivariate)</a></code></pre></div>
+<pre><code>## Rows: 10,000
+## Columns: 4
+## $ default &lt;fct&gt; No, No, No, No, No, No, No, No, No, No, No, No, No, No, No,...
+## $ student &lt;fct&gt; No, Yes, No, No, No, Yes, No, Yes, No, No, Yes, Yes, No, No...
+## $ balance &lt;dbl&gt; 729.5265, 817.1804, 1073.5492, 529.2506, 785.6559, 919.5885...
+## $ income  &lt;dbl&gt; 44361.625, 12106.135, 31767.139, 35704.494, 38463.496, 7491...</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(default <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="dt">data =</span> bivariate)</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = default ~ ., family = binomial(link = &quot;logit&quot;), 
+##     data = bivariate)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.4691  -0.1418  -0.0557  -0.0203   3.7383  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.087e+01  4.923e-01 -22.080  &lt; 2e-16 ***
+## studentYes  -6.468e-01  2.363e-01  -2.738  0.00619 ** 
+## balance      5.737e-03  2.319e-04  24.738  &lt; 2e-16 ***
+## income       3.033e-06  8.203e-06   0.370  0.71152    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2920.6  on 9999  degrees of freedom
+## Residual deviance: 1571.5  on 9996  degrees of freedom
+## AIC: 1579.5
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+<p><br></p>
+<p>The <code>mfx</code> package is useful if you want odds ratios or marginal effects:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">mfx<span class="op">::</span><span class="kw">logitor</span>(default <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> bivariate) <span class="co"># Odds Ratios</span></a></code></pre></div>
+<pre><code>## Call:
+## mfx::logitor(formula = default ~ ., data = bivariate)
+## 
+## Odds Ratio:
+##             OddsRatio  Std. Err.       z     P&gt;|z|    
+## studentYes 5.2373e-01 1.2373e-01 -2.7376  0.006188 ** 
+## balance    1.0058e+00 2.3323e-04 24.7376 &lt; 2.2e-16 ***
+## income     1.0000e+00 8.2026e-06  0.3698  0.711520    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">mfx<span class="op">::</span><span class="kw">logitmfx</span>(default <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> bivariate) <span class="co"># Marginal Effects</span></a></code></pre></div>
+<pre><code>## Call:
+## mfx::logitmfx(formula = default ~ ., data = bivariate)
+## 
+## Marginal Effects:
+##                  dF/dx   Std. Err.       z     P&gt;|z|    
+## studentYes -1.2055e-03  4.3151e-04 -2.7936  0.005212 ** 
+## balance     1.1998e-05  1.8268e-06  6.5679 5.104e-11 ***
+## income      6.3446e-09  1.7204e-08  0.3688  0.712287    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## dF/dx is for discrete change for the following variables:
+## 
+## [1] &quot;studentYes&quot;</code></pre>
+<p><br></p>
+</div>
+<div id="poissonnegative-binomial-regressions" class="section level1">
+<h1>Poisson/Negative Binomial Regressions</h1>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">poisson_model =<span class="st"> </span><span class="kw">glm</span>(dv <span class="op">~</span><span class="st"> </span>iv1 <span class="op">+</span><span class="st"> </span>iv2 <span class="op">+</span><span class="st"> </span>iv3, <span class="dt">family =</span> poisson, <span class="dt">data =</span> df_goes_here)</a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
+<p><br></p>
+<p>Using sample data from the <code>AER</code> package:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">data</span>(RecreationDemand, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)</a>
+<a class="sourceLine" id="cb26-2" title="2">poisson_model =<span class="st"> </span><span class="kw">glm</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> poisson, <span class="dt">data =</span> RecreationDemand)</a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="kw">summary</span>(poisson_model)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = trips ~ ., family = poisson, data = RecreationDemand)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -11.8465   -1.1411   -0.8896   -0.4780   18.6071  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.264993   0.093722   2.827  0.00469 ** 
+## quality      0.471726   0.017091  27.602  &lt; 2e-16 ***
+## skiyes       0.418214   0.057190   7.313 2.62e-13 ***
+## income      -0.111323   0.019588  -5.683 1.32e-08 ***
+## userfeeyes   0.898165   0.078985  11.371  &lt; 2e-16 ***
+## costC       -0.003430   0.003118  -1.100  0.27131    
+## costS       -0.042536   0.001670 -25.467  &lt; 2e-16 ***
+## costH        0.036134   0.002710  13.335  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 4849.7  on 658  degrees of freedom
+## Residual deviance: 2305.8  on 651  degrees of freedom
+## AIC: 3074.9
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p>When estimating Poisson models, check for overdispersion:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">performance<span class="op">::</span><span class="kw">check_overdispersion</span>(poisson_model)</a></code></pre></div>
+<pre><code>## # Overdispersion test
+## 
+##        dispersion ratio =    6.298
+##   Pearson&#39;s Chi-Squared = 4100.093
+##                 p-value =  &lt; 0.001</code></pre>
+<pre><code>## Overdispersion detected.</code></pre>
+<p>Given the overdispersion present, let’s select a different distributional family. A negative binomial regression would be more appropriate:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">neg_binom_model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">glm.nb</span>(trips <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> RecreationDemand)</a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="kw">summary</span>(neg_binom_model)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## MASS::glm.nb(formula = trips ~ ., data = RecreationDemand, init.theta = 0.7292568331, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.9727  -0.6256  -0.4619  -0.2897   5.0494  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.121936   0.214303  -5.235 1.65e-07 ***
+## quality      0.721999   0.040117  17.998  &lt; 2e-16 ***
+## skiyes       0.612139   0.150303   4.073 4.65e-05 ***
+## income      -0.026059   0.042453  -0.614    0.539    
+## userfeeyes   0.669168   0.353021   1.896    0.058 .  
+## costC        0.048009   0.009185   5.227 1.72e-07 ***
+## costS       -0.092691   0.006653 -13.931  &lt; 2e-16 ***
+## costH        0.038836   0.007751   5.011 5.42e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for Negative Binomial(0.7293) family taken to be 1)
+## 
+##     Null deviance: 1244.61  on 658  degrees of freedom
+## Residual deviance:  425.42  on 651  degrees of freedom
+## AIC: 1669.1
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  0.7293 
+##           Std. Err.:  0.0747 
+## 
+##  2 x log-likelihood:  -1651.1150</code></pre>
+<p><br></p>
+</div>
+<div id="fixed-effects-panel-regressions" class="section level1">
+<h1>Fixed-Effects Panel Regressions</h1>
+<p>An example of a panel regression with year and individual fixed effects:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">data</span>(Grunfeld, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</a>
+<a class="sourceLine" id="cb33-2" title="2">plm_fixed_model =<span class="st"> </span>plm<span class="op">::</span><span class="kw">plm</span>(inv <span class="op">~</span><span class="st"> </span>value <span class="op">+</span><span class="st"> </span>capital, <span class="dt">data =</span> Grunfeld, <span class="dt">effect =</span> <span class="st">&quot;twoway&quot;</span>, <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="kw">summary</span>(plm_fixed_model)</a></code></pre></div>
+<pre><code>## Twoways effects Within Model
+## 
+## Call:
+## plm::plm(formula = inv ~ value + capital, data = Grunfeld, effect = &quot;twoway&quot;, 
+##     model = &quot;within&quot;)
+## 
+## Balanced Panel: n = 10, T = 20, N = 200
+## 
+## Residuals:
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -162.6094  -19.4710   -1.2669   19.1277  211.8420 
+## 
+## Coefficients:
+##         Estimate Std. Error t-value  Pr(&gt;|t|)    
+## value   0.117716   0.013751  8.5604 6.653e-15 ***
+## capital 0.357916   0.022719 15.7540 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Total Sum of Squares:    1615600
+## Residual Sum of Squares: 452150
+## R-Squared:      0.72015
+## Adj. R-Squared: 0.67047
+## F-statistic: 217.442 on 2 and 169 DF, p-value: &lt; 2.22e-16</code></pre>
+<p><br></p>
+</div>
+<div id="cox-proportional-hazards-model" class="section level1">
+<h1>Cox Proportional Hazards Model</h1>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">library</span>(survival)</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">data</span>(lung)</a>
+<a class="sourceLine" id="cb35-3" title="3">cox_model =<span class="st"> </span><span class="kw">coxph</span>(<span class="kw">Surv</span>(time, status) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>ph.ecog <span class="op">+</span><span class="st"> </span>meal.cal <span class="op">+</span><span class="st"> </span>wt.loss, <span class="dt">data =</span> lung)</a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="kw">summary</span>(cox_model)</a></code></pre></div>
+<pre><code>## Call:
+## coxph(formula = Surv(time, status) ~ age + sex + ph.ecog + meal.cal + 
+##     wt.loss, data = lung)
+## 
+##   n= 170, number of events= 123 
+##    (58 observations deleted due to missingness)
+## 
+##                coef  exp(coef)   se(coef)      z Pr(&gt;|z|)    
+## age       8.693e-03  1.009e+00  1.124e-02  0.773 0.439303    
+## sex      -5.400e-01  5.827e-01  1.988e-01 -2.716 0.006602 ** 
+## ph.ecog   5.152e-01  1.674e+00  1.483e-01  3.474 0.000513 ***
+## meal.cal -4.499e-05  1.000e+00  2.512e-04 -0.179 0.857865    
+## wt.loss  -1.117e-02  9.889e-01  7.548e-03 -1.480 0.138841    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##          exp(coef) exp(-coef) lower .95 upper .95
+## age         1.0087     0.9913    0.9868    1.0312
+## sex         0.5827     1.7160    0.3947    0.8604
+## ph.ecog     1.6739     0.5974    1.2517    2.2384
+## meal.cal    1.0000     1.0000    0.9995    1.0004
+## wt.loss     0.9889     1.0112    0.9744    1.0036
+## 
+## Concordance= 0.64  (se = 0.03 )
+## Likelihood ratio test= 22.34  on 5 df,   p=5e-04
+## Wald test            = 21.31  on 5 df,   p=7e-04
+## Score (logrank) test = 21.86  on 5 df,   p=6e-04</code></pre>
+<p><br></p>
+</div>
+<div id="multiple-imputation" class="section level1">
+<h1>Multiple Imputation</h1>
+<p>Refer to the Amelia documentation before using!</p>
+<p>I suggest that Amelia be instructed to: (1) use multiple CPU cores, (2) perform transformations on certain variables (e.g., log-linear, square root, logistic function for proportional data, and so forth), and (3) create multiple imputed datasets. You can then use the mean or median value across all imputations.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">imputed_data =<span class="st"> </span>Amelia<span class="op">::</span><span class="kw">amelia</span>(panel_data, <span class="dt">m =</span> <span class="dv">100</span>, <span class="dt">cs =</span> <span class="st">&quot;state&quot;</span>, <span class="dt">ts =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">parallel =</span> <span class="st">&quot;snow&quot;</span>, <span class="dt">ncpus =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-2" title="2"><span class="st">  </span>purrr<span class="op">::</span><span class="kw">reduce</span>(imputed_data<span class="op">$</span>imputations, dplyr<span class="op">::</span>bind_rows) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(state, year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-4" title="4"><span class="st">  </span><span class="kw">summarize_all</span>(median, <span class="dt">na.rm =</span> T)</a></code></pre></div>
+<p><br></p>
+</div>
+<div id="robust-standard-errors" class="section level1">
+<h1>Robust Standard Errors</h1>
+<p>For linear estimators, using the <code>estimatr</code> package is rather straightforward:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">ols_robust =<span class="st"> </span>estimatr<span class="op">::</span><span class="kw">lm_robust</span>(rating <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> attitude)</a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="kw">summary</span>(ols_robust)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## estimatr::lm_robust(formula = rating ~ ., data = attitude)
+## 
+## Standard error type:  HC2 
+## 
+## Coefficients:
+##             Estimate Std. Error t value  Pr(&gt;|t|)   CI Lower CI Upper DF
+## (Intercept) 10.78708    14.4600  0.7460 4.632e-01 -19.125630  40.6998 23
+## complaints   0.61319     0.1246  4.9210 5.675e-05   0.355418   0.8710 23
+## privileges  -0.07305     0.1253 -0.5830 5.656e-01  -0.332249   0.1861 23
+## learning     0.32033     0.1577  2.0318 5.388e-02  -0.005807   0.6465 23
+## raises       0.08173     0.1732  0.4718 6.415e-01  -0.276599   0.4401 23
+## critical     0.03838     0.1781  0.2156 8.312e-01  -0.329964   0.4067 23
+## advance     -0.21706     0.1650 -1.3151 2.014e-01  -0.558482   0.1244 23
+## 
+## Multiple R-squared:  0.7326 ,    Adjusted R-squared:  0.6628 
+## F-statistic: 11.24 on 6 and 23 DF,  p-value: 7.187e-06</code></pre>
+<p>For other models, you will likely have to use the <code>lmtest</code> and <code>sandwich</code> packages.</p>
+<p><br></p>
+</div>
+<div id="ordinal-logit-regression" class="section level1">
+<h1>Ordinal Logit Regression</h1>
+<p>An example from the <code>MASS</code> package’s documentation.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">data</span>(housing, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>)</a>
+<a class="sourceLine" id="cb40-2" title="2">ordered_logistic_model =<span class="st"> </span>MASS<span class="op">::</span><span class="kw">polr</span>(Sat <span class="op">~</span><span class="st"> </span>Infl <span class="op">+</span><span class="st"> </span>Type <span class="op">+</span><span class="st"> </span>Cont, <span class="dt">weights =</span> Freq, <span class="dt">data =</span> housing, <span class="dt">Hess =</span> T)</a>
+<a class="sourceLine" id="cb40-3" title="3"><span class="kw">summary</span>(ordered_logistic_model)</a></code></pre></div>
+<pre><code>## Call:
+## MASS::polr(formula = Sat ~ Infl + Type + Cont, data = housing, 
+##     weights = Freq, Hess = T)
+## 
+## Coefficients:
+##                 Value Std. Error t value
+## InflMedium     0.5664    0.10465   5.412
+## InflHigh       1.2888    0.12716  10.136
+## TypeApartment -0.5724    0.11924  -4.800
+## TypeAtrium    -0.3662    0.15517  -2.360
+## TypeTerrace   -1.0910    0.15149  -7.202
+## ContHigh       0.3603    0.09554   3.771
+## 
+## Intercepts:
+##             Value   Std. Error t value
+## Low|Medium  -0.4961  0.1248    -3.9739
+## Medium|High  0.6907  0.1255     5.5049
+## 
+## Residual Deviance: 3479.149 
+## AIC: 3495.149</code></pre>
+<p><br></p>
+</div>
+<div id="multinomial-logistic-regression" class="section level1">
+<h1>Multinomial Logistic Regression</h1>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">example</span>(birthwt, <span class="dt">package =</span> <span class="st">&quot;MASS&quot;</span>, <span class="dt">echo =</span> F)</a>
+<a class="sourceLine" id="cb42-2" title="2">tibble<span class="op">::</span><span class="kw">glimpse</span>(bwt)</a></code></pre></div>
+<pre><code>## Rows: 189
+## Columns: 9
+## $ low   &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ age   &lt;int&gt; 19, 33, 20, 21, 18, 21, 22, 17, 29, 26, 19, 19, 22, 30, 18, 1...
+## $ lwt   &lt;int&gt; 182, 155, 105, 108, 107, 124, 118, 103, 123, 113, 95, 150, 95...
+## $ race  &lt;fct&gt; black, other, white, white, white, other, white, other, white...
+## $ smoke &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TR...
+## $ ptd   &lt;fct&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE...
+## $ ht    &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE...
+## $ ui    &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, F...
+## $ ftv   &lt;fct&gt; 0, 2+, 1, 2+, 0, 0, 1, 1, 1, 0, 0, 1, 0, 2+, 0, 0, 0, 2+, 0, ...</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">multinom_logit =<span class="st"> </span>nnet<span class="op">::</span><span class="kw">multinom</span>(low <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> bwt)</a></code></pre></div>
+<pre><code>## # weights:  12 (11 variable)
+## initial  value 131.004817 
+## iter  10 value 98.029803
+## final  value 97.737759 
+## converged</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">summary</span>(multinom_logit)</a></code></pre></div>
+<pre><code>## Call:
+## nnet::multinom(formula = low ~ ., data = bwt)
+## 
+## Coefficients:
+##                  Values  Std. Err.
+## (Intercept)  0.82320102 1.24476766
+## age         -0.03723828 0.03870437
+## lwt         -0.01565359 0.00708079
+## raceblack    1.19240391 0.53598076
+## raceother    0.74065606 0.46176615
+## smokeTRUE    0.75550487 0.42503626
+## ptdTRUE      1.34375901 0.48063449
+## htTRUE       1.91320116 0.72076133
+## uiTRUE       0.68020207 0.46434974
+## ftv1        -0.43638470 0.47941107
+## ftv2+        0.17900392 0.45639129
+## 
+## Residual Deviance: 195.4755 
+## AIC: 217.4755</code></pre>
+<p><br></p>
+</div>
+<div id="instrumental-variable-regression-by-two-stage-least-squares" class="section level1">
+<h1>Instrumental Variable Regression by Two-Stage Least Squares</h1>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">data</span>(CigarettesSW, <span class="dt">package =</span> <span class="st">&quot;AER&quot;</span>)</a>
+<a class="sourceLine" id="cb48-2" title="2">CigarettesSW<span class="op">$</span>rprice  =<span class="st"> </span><span class="kw">with</span>(CigarettesSW, price<span class="op">/</span>cpi)</a>
+<a class="sourceLine" id="cb48-3" title="3">CigarettesSW<span class="op">$</span>rincome =<span class="st"> </span><span class="kw">with</span>(CigarettesSW, income<span class="op">/</span>population<span class="op">/</span>cpi)</a>
+<a class="sourceLine" id="cb48-4" title="4">CigarettesSW<span class="op">$</span>tdiff   =<span class="st"> </span><span class="kw">with</span>(CigarettesSW, (taxs <span class="op">-</span><span class="st"> </span>tax)<span class="op">/</span>cpi)</a>
+<a class="sourceLine" id="cb48-5" title="5"></a>
+<a class="sourceLine" id="cb48-6" title="6">tibble<span class="op">::</span><span class="kw">glimpse</span>(CigarettesSW)</a></code></pre></div>
+<pre><code>## Rows: 96
+## Columns: 12
+## $ state      &lt;fct&gt; AL, AR, AZ, CA, CO, CT, DE, FL, GA, IA, ID, IL, IN, KS, ...
+## $ year       &lt;fct&gt; 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 19...
+## $ cpi        &lt;dbl&gt; 1.076, 1.076, 1.076, 1.076, 1.076, 1.076, 1.076, 1.076, ...
+## $ population &lt;dbl&gt; 3973000, 2327000, 3184000, 26444000, 3209000, 3201000, 6...
+## $ packs      &lt;dbl&gt; 116.4863, 128.5346, 104.5226, 100.3630, 112.9635, 109.27...
+## $ income     &lt;dbl&gt; 46014968, 26210736, 43956936, 447102816, 49466672, 60063...
+## $ tax        &lt;dbl&gt; 32.50000, 37.00000, 31.00000, 26.00000, 31.00000, 42.000...
+## $ price      &lt;dbl&gt; 102.18167, 101.47500, 108.57875, 107.83734, 94.26666, 12...
+## $ taxs       &lt;dbl&gt; 33.34834, 37.00000, 36.17042, 32.10400, 31.00000, 51.483...
+## $ rprice     &lt;dbl&gt; 94.96438, 94.30762, 100.90962, 100.22058, 87.60842, 118....
+## $ rincome    &lt;dbl&gt; 10.763866, 10.468165, 12.830456, 15.713321, 14.326190, 1...
+## $ tdiff      &lt;dbl&gt; 0.7884121, 0.0000000, 4.8052211, 5.6728627, 0.0000000, 8...</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">iv_regression =<span class="st"> </span>AER<span class="op">::</span><span class="kw">ivreg</span>(<span class="kw">log</span>(packs) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(rprice) <span class="op">+</span><span class="st"> </span><span class="kw">log</span>(rincome) <span class="op">|</span><span class="st"> </span><span class="kw">log</span>(rincome) <span class="op">+</span><span class="st"> </span>tdiff <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(tax<span class="op">/</span>cpi),</a>
+<a class="sourceLine" id="cb50-2" title="2">                           <span class="dt">data =</span> CigarettesSW, <span class="dt">subset =</span> year <span class="op">==</span><span class="st"> &quot;1995&quot;</span>)</a>
+<a class="sourceLine" id="cb50-3" title="3"><span class="kw">summary</span>(iv_regression)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## AER::ivreg(formula = log(packs) ~ log(rprice) + log(rincome) | 
+##     log(rincome) + tdiff + I(tax/cpi), data = CigarettesSW, subset = year == 
+##     &quot;1995&quot;)
+## 
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -0.6006931 -0.0862222 -0.0009999  0.1164699  0.3734227 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    9.8950     1.0586   9.348 4.12e-12 ***
+## log(rprice)   -1.2774     0.2632  -4.853 1.50e-05 ***
+## log(rincome)   0.2804     0.2386   1.175    0.246    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1879 on 45 degrees of freedom
+## Multiple R-Squared: 0.4294,  Adjusted R-squared: 0.4041 
+## Wald test: 13.28 on 2 and 45 DF,  p-value: 2.931e-05</code></pre>
+<p><br></p>
+</div>
+<div id="multilevel-mixed-effects-models" class="section level1">
+<h1>Multilevel Mixed-Effects Models</h1>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">library</span>(lme4)</a></code></pre></div>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
+##   method                          from
+##   cooks.distance.influence.merMod car 
+##   influence.merMod                car 
+##   dfbeta.influence.merMod         car 
+##   dfbetas.influence.merMod        car</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">tibble<span class="op">::</span><span class="kw">glimpse</span>(sleepstudy)</a></code></pre></div>
+<pre><code>## Rows: 180
+## Columns: 3
+## $ Reaction &lt;dbl&gt; 249.5600, 258.7047, 250.8006, 321.4398, 356.8519, 414.6901...
+## $ Days     &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9...
+## $ Subject  &lt;fct&gt; 308, 308, 308, 308, 308, 308, 308, 308, 308, 308, 309, 309...</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">mixed_effects_model =<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleepstudy)</a>
+<a class="sourceLine" id="cb57-2" title="2"><span class="kw">summary</span>(mixed_effects_model)</a></code></pre></div>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: Reaction ~ Days + (Days | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1743.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9536 -0.4634  0.0231  0.4634  5.1793 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  Subject  (Intercept) 612.10   24.741       
+##           Days         35.07    5.922   0.07
+##  Residual             654.94   25.592       
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  251.405      6.825  36.838
+## Days          10.467      1.546   6.771
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.138</code></pre>
+<p><br></p>
+</div>
+<div id="regression-table-output" class="section level1">
+<h1>Regression Table Output</h1>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw">library</span>(stargazer)</a>
+<a class="sourceLine" id="cb59-2" title="2"><span class="kw">library</span>(texreg)</a>
+<a class="sourceLine" id="cb59-3" title="3"><span class="kw">library</span>(xtable)</a></code></pre></div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

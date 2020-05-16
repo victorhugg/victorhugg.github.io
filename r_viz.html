@@ -353,16 +353,13 @@ $(document).ready(function () {
   <a href="VictorHuggCV.pdf">CV (PDF)</a>
 </li>
 <li>
-  <a href="https://scholar.google.com/citations?user=C0mYOJMAAAAJ">Google Scholar</a>
-</li>
-<li>
   <a href="r_basics.html">R Basics</a>
 </li>
 <li>
   <a href="r_viz.html">R for Data Visualization</a>
 </li>
 <li>
-  <a href="r_sna.html">R for Social Network Analysis</a>
+  <a href="r_econometrics.html">R for Econometrics</a>
 </li>
 <li>
   <a href="r_ml.html">R for Machine Learning</a>
@@ -437,7 +434,7 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb1-35" title="35">    )</a>
 <a class="sourceLine" id="cb1-36" title="36">)</a></code></pre></div>
 <p>Call <code>?network::plot.network</code> to read the R help file on plotting <code>statnet</code> objects.</p>
-<p><img src="viz_network.png" /><!-- --></p>
+<p><img src="viz_network.png" width="1304" /></p>
 <hr>
 </div>
 <div id="ggplot2" class="section level1">
@@ -449,14 +446,14 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb2-4" title="4"><span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">size =</span> <span class="fl">0.75</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Non-White Students&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-5" title="5"><span class="st">    </span><span class="kw">theme_lucid</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="dt">legend.text.size =</span> <span class="dv">9</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>)</a>
 <a class="sourceLine" id="cb2-6" title="6"><span class="kw">ggsave</span>(<span class="st">&quot;../Dissertation/Figure 11.png&quot;</span>, <span class="dt">width =</span> <span class="fl">6.25</span>, <span class="dt">height =</span> <span class="fl">7.5</span>, <span class="dt">dpi =</span> <span class="dv">300</span>, <span class="dt">type =</span> <span class="st">&quot;cairo-png&quot;</span>)</a></code></pre></div>
-<p><img src="viz_nonwhite.png" /><!-- --></p>
+<p><img src="viz_nonwhite.png" width="938" /></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">ggplot</span>(data_for_plots, <span class="kw">aes</span>(year, mean_count, <span class="dt">color =</span> district_size_class)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="st">    </span><span class="kw">geom_point2</span>(<span class="dt">alpha =</span> <span class="fl">0.33</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> F) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>( <span class="op">~</span><span class="st"> </span>broad_topic) <span class="op">+</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Mean Active Agreement Count&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="st">    </span><span class="kw">theme_lucid</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="dt">legend.text.size =</span> <span class="dv">9</span>, <span class="dt">axis.text.size =</span> <span class="dv">9</span>, <span class="dt">base_size =</span> <span class="dv">10</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb3-5" title="5"><span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> <span class="kw">seq</span>(<span class="dv">1995</span>, <span class="dv">2015</span>, <span class="dv">10</span>))</a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="kw">ggsave</span>(<span class="st">&quot;../Dissertation/Figure 16.png&quot;</span>, <span class="dt">width =</span> <span class="fl">6.25</span>, <span class="dt">height =</span> <span class="fl">7.5</span>, <span class="dt">dpi =</span> <span class="dv">300</span>, <span class="dt">type =</span> <span class="st">&quot;cairo-png&quot;</span>)</a></code></pre></div>
-<p><img src="viz_chapter4.png" /><!-- --></p>
+<p><img src="viz_chapter4.png" width="938" /></p>
 <hr>
 </div>
 <div id="gis-shape-files" class="section level1">
@@ -497,11 +494,10 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb5-13" title="13">        <span class="dt">legend.title =</span> <span class="kw">element_blank</span>()</a>
 <a class="sourceLine" id="cb5-14" title="14">    )</a></code></pre></div>
 <p>Average teacher salary by public school district:</p>
-<p><img src="viz_salary.png" /><!-- --></p>
+<p><img src="viz_salary.png" width="TRUE" /></p>
 <p>Average ACT score by public school district:</p>
-<p><img src="viz_act.png" /><!-- --></p>
+<p><img src="viz_act.png" width="TRUE" /></p>
 <p>I save these by using RStudio’s export function; <code>ggsave</code> has trouble with scaling shape borders and text labels properly.</p>
-<hr>
 </div>
 
 
